@@ -6,7 +6,7 @@ Tài liệu hướng dẫn chi tiết quy trình từng bước để chuyển �
 
 ## 1. Sơ Đồ Quy Trình Tổng Thể
 
-### 📊 Bản đồ đồ họa trực quan (Visual Pipeline)
+### Bản đồ đồ họa trực quan (Visual Pipeline)
 
 ![Sơ đồ quy trình tạo video vẽ tay](assets/quy-trinh-pipeline.png)
 
@@ -23,13 +23,13 @@ Tài liệu hướng dẫn chi tiết quy trình từng bước để chuyển �
 
 ---
 
-#### 🗺️ Sơ Đồ 4 Khâu Thực Hiện Trong Bước 1 (Visual Roadmap)
+#### Sơ Đồ 4 Khâu Thực Hiện Trong Bước 1 (Visual Roadmap)
 
 ![Lộ trình 4 khâu Bước 1](assets/step1-prompts.png)
 
 ---
 
-#### 📌 Chi tiết từng khâu thực hiện:
+#### Chi tiết từng khâu thực hiện:
 
 ##### 1.1. Xây dựng Ý tưởng & Viết Kịch bản Lời thoại (Ideation & Scriptwriting)
 * **Thực hiện:** Chưa cần quan tâm đến giây hay mốc thời gian. Tập trung sáng tạo nội dung cô đọng: Mở đầu thu hút (Hook) $\rightarrow$ Nội dung giải pháp $\rightarrow$ Kết luận bứt phá.
@@ -64,14 +64,36 @@ Tài liệu hướng dẫn chi tiết quy trình từng bước để chuyển �
 
 ### Bước 2: Tạo Tranh Vẽ Nét (Line Art)
 
-- **Mục tiêu:** Tạo hình ảnh minh họa bao quát toàn bộ nội dung của phân cảnh đó.
-- **Quy chuẩn thị giác (Bắt buộc):**
-  - **Tỉ lệ khung hình:** 16:9 (kích thước đề xuất: `1376x768` hoặc `1920x1080`).
-  - **Màu nền giấy:** Màu vàng be ấm (mã màu `#F5EBD7`). Tuyệt đối không dùng nền trắng tinh.
-  - **Phong cách vẽ:** Nét phác thảo chì xám đậm tối giản (*Notion doodle style*), nhiều khoảng đệm trắng (*negative space*) quanh từng đối tượng.
-  - **Màu sắc nhấn nhá:** Hạn chế, chỉ dùng một chút màu cam hoặc xanh dương nhẹ.
-  - **Điều cấm kỵ:** Tuyệt đối **không vẽ sẵn chữ, số hay nhãn chữ** vào tranh; không dùng hiệu ứng 3D đổ bóng hoặc chi tiết chụp ảnh thực tế.
+- **Mục tiêu:** Tạo hình ảnh minh họa bao quát toàn bộ nội dung của phân cảnh theo quy chuẩn thị giác nghiêm ngặt để phục vụ thuật toán bóc tách nét vẽ tay.
+
+#### 5 Quy chuẩn thị giác bắt buộc:
+| Yếu tố | Tiêu chuẩn kỹ thuật | Mục đích / Lý do |
+|---|---|---|
+| **Tỉ lệ khung hình** | `16:9` (`1376×768` hoặc `1920×1080`) | Chuẩn video YouTube & màn hình ngang |
+| **Nền giấy ấm** | Vàng be ấm `#F5EBD7` | Tạo cảm giác giấy vẽ tự nhiên, không chói gắt như nền trắng `#FFFFFF` |
+| **Phong cách nét** | Notion Doodle / Phác chì xám than | Nét mảnh, dứt khoát, dễ bóc tách lớp Ink |
+| **Màu điểm xuyết** | Cam / Xanh pastel nhẹ | Phục vụ hiệu ứng tô màu 2 lớp (Ink 2/3 thời gian → Color 1/3 thời gian) |
+| **Negative Space** | Chừa nhiều khoảng trống | Giúp các cụm hình tách biệt, không bị dính bounding box ở Bước 3 |
+
+#### 2 Lệnh cấm cốt tử (Negative Constraints):
+1. **Tuyệt đối KHÔNG vẽ sẵn chữ, số, nhãn (No Text/Numbers):** Tránh bàn tay phải đồ lại chữ méo mó và AI sai chính tả (phụ đề do file SRT đảm nhiệm).
+2. **Tuyệt đối KHÔNG 3D, không đổ bóng khối, không ảnh thực (No 3D/Photorealism):** Tránh thuật toán tách cạnh Sobel/Canny ở Bước 5 bị vỡ nát thành hàng nghìn hạt mè.
+
+#### Mẫu Prompt kỹ thuật chuẩn (Production Prompt Template):
+```text
+A 16:9 minimalist hand-drawn storyboard illustration on a solid warm beige parchment paper background (#F5EBD7). Clean Notion doodle style, thin dark charcoal sketch lines, loose charming ink drawings with lots of clean open negative space.
+
+Horizontal progression from left to right with four distinct elements:
+1. (Far left): [CỤM_1_BỐI_CẢNH: Mô tả nhân vật/bối cảnh mở đầu]
+2. (Middle-left): [CỤM_2_VẤN_ĐỀ_GIẢI_PHÁP: Mô tả biểu tượng cốt lõi kèm điểm nhấn màu cam nhẹ]
+3. (Middle-right): [CỤM_3_HÀNH_ĐỘNG: Mô tả các icon nhỏ kèm điểm nhấn màu xanh nhẹ]
+4. (Far right): [CỤM_4_KẾT_QUẢ: Mô tả kết quả tích cực, đầy năng lượng]
+
+Pure 2D flat sketch aesthetic, STRICTLY NO text, NO numbers, NO letters, NO words, NO labels, NO 3D rendering, NO photorealism.
+```
+
 - **Đầu ra:** File ảnh nét vẽ `scene-xx.png`.
+- **Trạm kiểm duyệt Bước 2:** Hiển thị ảnh và dừng lại chờ người dùng duyệt trước khi sang Bước 3.
 
 ---
 

@@ -41,17 +41,20 @@
       box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
       border-color: #cbd5e1;
     }
-    #sub-steps-container {
+    #sub-steps-container,
+    .collapsible-container {
       overflow: hidden;
       transition: max-height 0.3s ease, opacity 0.25s ease;
-      max-height: 2000px;
+      max-height: 2500px;
       opacity: 1;
     }
-    #sub-steps-container.collapsed {
+    #sub-steps-container.collapsed,
+    .collapsible-container.collapsed {
       max-height: 0 !important;
       opacity: 0;
     }
-    .toggle-all-icon {
+    .toggle-all-icon,
+    .toggle-icon {
       display: inline-block;
       transition: transform 0.25s ease;
     }
@@ -63,7 +66,12 @@
     <!-- Hero Header -->
     <header class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
       <div class="flex items-center gap-3 mb-3">
-        <span class="text-3xl">✏️</span>
+        <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+            <path d="m15 5 4 4"/>
+          </svg>
+        </div>
         <span class="text-xs font-bold tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 uppercase">
           Tài Liệu Hướng Dẫn Kỹ Thuật
         </span>
@@ -80,7 +88,12 @@
     <section class="bg-white border border-slate-200 rounded-2xl shadow-sm">
       <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
         <div class="flex items-center gap-2.5">
-          <span class="text-xl">📊</span>
+          <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="7" height="9" x="3" y="3" rx="1"/>
+            <rect width="7" height="5" x="14" y="3" rx="1"/>
+            <rect width="7" height="9" x="14" y="12" rx="1"/>
+            <rect width="7" height="5" x="3" y="16" rx="1"/>
+          </svg>
           <h2 class="text-lg font-bold text-slate-900">1. Sơ Đồ Quy Trình Tổng Thể</h2>
         </div>
         <div class="flex items-center gap-2">
@@ -98,12 +111,9 @@
           <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
             <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200 font-mono">
+              <div class="mb-2"><span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200 font-mono">
                   BƯỚC 01
-                </span>
-                <span class="text-lg">📄</span>
-              </div>
+                </span></div>
               <h3 class="text-sm font-bold text-slate-800 mb-1.5">Chuẩn bị SRT &amp; Phân cảnh</h3>
               <p class="text-xs text-slate-600 leading-relaxed mb-4">
                 Chia SRT thành các phân cảnh khoảng 25–35s. Mỗi phân cảnh truyền tải một thông điệp cốt lõi.
@@ -119,12 +129,9 @@
           <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div>
             <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 font-mono">
+              <div class="mb-2"><span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 font-mono">
                   BƯỚC 02
-                </span>
-                <span class="text-lg">🎨</span>
-              </div>
+                </span></div>
               <h3 class="text-sm font-bold text-slate-800 mb-1.5">Tạo Tranh Nét (Line Art)</h3>
               <p class="text-xs text-slate-600 leading-relaxed mb-4">
                 Vẽ minh họa 16:9, nền be ấm <span class="font-mono font-semibold text-amber-700">#F5EBD7</span>, nét doodle tối giản, tuyệt đối không có chữ.
@@ -140,12 +147,9 @@
           <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
             <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-200 font-mono">
+              <div class="mb-2"><span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-200 font-mono">
                   BƯỚC 03
-                </span>
-                <span class="text-lg">📐</span>
-              </div>
+                </span></div>
               <h3 class="text-sm font-bold text-slate-800 mb-1.5">Phân Vùng Kể Chuyện</h3>
               <p class="text-xs text-slate-600 leading-relaxed mb-4">
                 Đánh dấu bounding box: Bối cảnh &rarr; Nhân vật &rarr; Hành động, gắn mốc thời gian phụ đề.
@@ -161,12 +165,9 @@
           <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-purple-500"></div>
             <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-purple-50 text-purple-600 border border-purple-200 font-mono">
+              <div class="mb-2"><span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-purple-50 text-purple-600 border border-purple-200 font-mono">
                   BƯỚC 04
-                </span>
-                <span class="text-lg">🎛️</span>
-              </div>
+                </span></div>
               <h3 class="text-sm font-bold text-slate-800 mb-1.5">Xem Trước &amp; Tinh Chỉnh</h3>
               <p class="text-xs text-slate-600 leading-relaxed mb-4">
                 Mở bàn Preview trên web browser, kéo thả khung và căn chỉnh timeline chuẩn xác từng mili-giây.
@@ -182,12 +183,9 @@
           <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-rose-500"></div>
             <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-rose-50 text-rose-600 border border-rose-200 font-mono">
+              <div class="mb-2"><span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-rose-50 text-rose-600 border border-rose-200 font-mono">
                   BƯỚC 05
-                </span>
-                <span class="text-lg">🎬</span>
-              </div>
+                </span></div>
               <h3 class="text-sm font-bold text-slate-800 mb-1.5">Render Bút Vẽ Hoạt Hình</h3>
               <p class="text-xs text-slate-600 leading-relaxed mb-4">
                 Bàn tay thực lướt vẽ nét mực (ink) rồi phủ màu (color) tỉ lệ 2:1, xuất video 60fps mượt mà.
@@ -203,12 +201,9 @@
           <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-cyan-500"></div>
             <div>
-              <div class="flex items-center justify-between mb-2.5">
-                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-cyan-50 text-cyan-600 border border-cyan-200 font-mono">
+              <div class="mb-2"><span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-cyan-50 text-cyan-600 border border-cyan-200 font-mono">
                   BƯỚC 06
-                </span>
-                <span class="text-lg">🎧</span>
-              </div>
+                </span></div>
               <h3 class="text-sm font-bold text-slate-800 mb-1.5">Lồng Tiếng &amp; Hoàn Thiện</h3>
               <p class="text-xs text-slate-600 leading-relaxed mb-4">
                 Ghép giọng đọc AI / thật chuẩn theo SRT, thêm tiếng ma sát ngòi bút và ghép nối video đa cảnh.
@@ -235,18 +230,20 @@
     <!-- Section 2: Chi tiết 6 bước -->
     <section class="space-y-6">
       <div class="flex items-center gap-2.5 px-2">
-        <span class="text-xl">📌</span>
+        <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/>
+          <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/>
+          <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>
+        </svg>
         <h2 class="text-xl font-bold text-slate-900">2. Chi Tiết 6 Bước Thực Hiện</h2>
       </div>
 
       <!-- Step 1 -->
       <div class="step-card p-6 md:p-7 border-l-4 border-l-blue-500">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 font-mono">
+        <div class="mb-2"><span class="text-xs font-extrabold px-2.5 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 font-mono">
             BƯỚC 01
           </span>
-          <span class="text-xs font-semibold text-slate-500">Tiền kỳ kịch bản</span>
-        </div>
+          <span class="text-xs font-semibold text-slate-500">Tiền kỳ kịch bản</span></div>
         <h3 class="text-lg font-bold text-slate-900 mb-2">Từ Ý Tưởng Đến Kịch Bản, File SRT & Phân Cảnh</h3>
         <p class="text-sm text-slate-600 mb-4">
           Phát triển từ một ý tưởng đề tài ban đầu thành kịch bản hoàn chỉnh, xuất file phụ đề SRT có mốc thời gian chuẩn xác và chốt thiết kế bố cục hình vẽ cho từng cảnh.
@@ -254,7 +251,11 @@
 
         <!-- Tiêu chuẩn phân cảnh -->
         <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4 mb-5 text-xs text-slate-700 space-y-1">
-          <div class="font-bold text-blue-900 mb-1">🎯 Tiêu chuẩn phân cảnh (Scene):</div>
+          <div class="font-bold text-blue-900 mb-1"><svg class="w-3.5 h-3.5 text-blue-700 inline-block mr-1 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>Tiêu chuẩn phân cảnh (Scene):</div>
           <div>• Thời lượng mỗi cảnh: lý tưởng từ <strong>25 – 35 giây</strong> (tương đương 60 – 80 từ ngữ nói vừa phải).</div>
           <div>• Mỗi cảnh chỉ truyền tải <strong>một thông điệp cốt lõi</strong> và chứa từ <strong>3 đến 4 cụm hình ảnh</strong> trọng tâm.</div>
         </div>
@@ -263,7 +264,11 @@
         <div class="mb-4 space-y-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <span class="text-base">🗺️</span>
+              <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+                <line x1="9" x2="9" y1="3" y2="18"/>
+                <line x1="15" x2="15" y1="6" y2="21"/>
+              </svg>
               <div>
                 <h4 class="text-xs font-bold text-slate-800">Lộ Trình 4 Khâu: Từ Ý Tưởng Đến File SRT &amp; Phân Cảnh</h4>
                 <p class="text-[11px] text-slate-500">Chu trình 4 khâu từ ý tưởng sơ khai đến khi chốt bản thiết kế hình vẽ</p>
@@ -277,10 +282,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             <!-- 1.1 -->
             <div class="flow-card p-3.5 border-l-4 border-l-sky-500">
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-mono">KHÂU 1.1</span>
-                <span class="text-base">💡</span>
-              </div>
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-mono">KHÂU 1.1</span></div>
               <h5 class="text-xs font-bold text-slate-800 mb-1">Xây Dựng Ý Tưởng &amp; Lời Thoại</h5>
               <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
                 Lên chủ đề, thông điệp cốt lõi và viết kịch bản thoại (chưa cần mốc thời gian). Khoảng 60–80 từ cho 1 cảnh 25–30s.
@@ -292,10 +294,7 @@
 
             <!-- 1.2 -->
             <div class="flow-card p-3.5 border-l-4 border-l-indigo-500">
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">KHÂU 1.2</span>
-                <span class="text-base">🎙️</span>
-              </div>
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">KHÂU 1.2</span></div>
               <h5 class="text-xs font-bold text-slate-800 mb-1">Thu Âm &amp; Xuất File Phụ Đề (.srt)</h5>
               <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
                 Thu âm giọng đọc &rarr; xuất phụ đề tự động từ CapCut/Whisper để có mốc thời gian <code class="text-indigo-600 font-semibold font-mono">startMs &rarr; endMs</code> chuẩn 100%.
@@ -307,10 +306,7 @@
 
             <!-- 1.3 -->
             <div class="flow-card p-3.5 border-l-4 border-l-amber-500 ring-2 ring-amber-500/10">
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">KHÂU 1.3 (TRỌNG TÂM)</span>
-                <span class="text-base">🎨</span>
-              </div>
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">KHÂU 1.3 (TRỌNG TÂM)</span></div>
               <h5 class="text-xs font-bold text-slate-800 mb-1">Chuyển Thể Sang Bố Cục Hình Ảnh</h5>
               <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
                 Đọc từng câu SRT để quyết định vẽ cái gì: Bối cảnh &rarr; Nhân vật &rarr; Hành động &rarr; Kết quả (chỉ mô tả chữ, chưa vẽ ảnh).
@@ -322,10 +318,7 @@
 
             <!-- 1.4 -->
             <div class="flow-card p-3.5 border-l-4 border-l-emerald-500">
-              <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">KHÂU 1.4 (BẮT BUỘC)</span>
-                <span class="text-base">✅</span>
-              </div>
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">KHÂU 1.4 (BẮT BUỘC)</span></div>
               <h5 class="text-xs font-bold text-slate-800 mb-1">Trạm Kiểm Duyệt Phân Cảnh (dạng text)</h5>
               <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
                 Người dùng duyệt bản mô tả bố cục hình vẽ. Khi xác nhận hài lòng mới chuyển sang Bước 2 (sinh file ảnh vẽ nét).
@@ -384,35 +377,206 @@
 
       <!-- Step 2 -->
       <div class="step-card p-6 md:p-7 border-l-4 border-l-amber-500">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">
+        <div class="mb-2"><span class="text-xs font-extrabold px-2.5 py-1 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">
             BƯỚC 02
           </span>
-          <span class="text-xs font-semibold text-slate-500">Sản xuất hình ảnh</span>
-        </div>
+          <span class="text-xs font-semibold text-slate-500">Sản xuất hình ảnh</span></div>
         <h3 class="text-lg font-bold text-slate-900 mb-2">Tạo Tranh Vẽ Nét (Line Art)</h3>
         <p class="text-sm text-slate-600 mb-4">
-          Tạo hình ảnh minh họa bao quát toàn bộ nội dung của phân cảnh theo quy chuẩn thị giác nghiêm ngặt.
+          Khởi tạo hình ảnh minh họa bao quát toàn bộ nội dung phân cảnh, tuân thủ nghiêm ngặt quy chuẩn thị giác vẽ tay bảng trắng để phục vụ thuật toán bóc tách nét cọ.
         </p>
-        <div class="bg-amber-50/50 border border-amber-100 rounded-xl p-4 text-xs text-slate-700 space-y-1 mb-3">
-          <div class="font-bold text-amber-900 mb-1">🎨 Quy chuẩn thị giác bắt buộc:</div>
-          <div>• <strong>Tỉ lệ khung hình:</strong> 16:9 (kích thước đề xuất: <code class="font-mono">1376x768</code> hoặc <code class="font-mono">1920x1080</code>).</div>
-          <div>• <strong>Màu nền giấy:</strong> Vàng be ấm (mã <code class="font-mono font-bold text-amber-800">#F5EBD7</code>). Tuyệt đối không dùng nền trắng tinh.</div>
-          <div>• <strong>Phong cách vẽ:</strong> Nét phác thảo chì xám đậm tối giản (Notion doodle), nhiều khoảng trống (negative space).</div>
-          <div>• <strong>Màu sắc điểm xuyết:</strong> Chỉ dùng một lượng nhỏ màu cam hoặc xanh dương nhẹ.</div>
-          <div>• <strong>Điều cấm kỵ:</strong> Tuyệt đối <u>không vẽ sẵn chữ số hay nhãn chữ</u> vào tranh; không 3D đổ bóng hay ảnh thực.</div>
+
+        <!-- 5 Quy chuẩn thị giác tiêu chuẩn (The 5 Golden Standards) -->
+        <div class="bg-amber-50/60 border border-amber-200 rounded-xl p-4 mb-5 text-xs text-slate-700">
+          <div class="font-bold text-amber-900 mb-2.5 flex items-center gap-2">
+            <svg class="w-4 h-4 text-amber-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+              <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+              <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+              <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+            </svg>
+            <span>5 Quy Chuẩn Thị Giác Bắt Buộc:</span>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5 font-mono text-[11px]">
+            <div class="bg-white p-2.5 rounded-lg border border-amber-100 flex flex-col justify-between">
+              <span class="text-slate-400 text-[10px]">TỶ LỆ KHUNG</span>
+              <span class="font-bold text-slate-800 mt-1">16:9</span>
+              <span class="text-[10px] text-slate-500 font-sans">1376×768 / 1080p</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-amber-100 flex flex-col justify-between">
+              <span class="text-slate-400 text-[10px]">NỀN GIẤY ẤM</span>
+              <span class="font-bold text-amber-700 mt-1">#F5EBD7</span>
+              <span class="text-[10px] text-slate-500 font-sans">Cấm nền trắng tinh</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-amber-100 flex flex-col justify-between">
+              <span class="text-slate-400 text-[10px]">PHONG CÁCH NÉT</span>
+              <span class="font-bold text-slate-800 mt-1">Notion Doodle</span>
+              <span class="text-[10px] text-slate-500 font-sans">Chì xám than tối giản</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-amber-100 flex flex-col justify-between">
+              <span class="text-slate-400 text-[10px]">MÀU ĐIỂM XUYẾT</span>
+              <span class="font-bold text-slate-800 mt-1">Cam / Xanh dịu</span>
+              <span class="text-[10px] text-slate-500 font-sans">Liều lượng tối thiểu</span>
+            </div>
+            <div class="bg-white p-2.5 rounded-lg border border-amber-100 flex flex-col justify-between col-span-2 md:col-span-1">
+              <span class="text-slate-400 text-[10px]">BỐ CỤC KHÔNG GIAN</span>
+              <span class="font-bold text-emerald-700 mt-1">Negative Space</span>
+              <span class="text-[10px] text-slate-500 font-sans">Tách rời các cụm</span>
+            </div>
+          </div>
         </div>
-        <div class="text-xs text-slate-500">Đầu ra: File ảnh nét vẽ <code class="text-amber-700 font-mono bg-amber-50 px-1.5 py-0.5 rounded">scene-xx.png</code>.</div>
+
+        <!-- Visual Roadmap (4 Khâu Xử Lý Bước 2) -->
+        <div class="mb-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/>
+                <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/>
+                <path d="M12 2v2"/>
+                <path d="M12 20v2"/>
+                <path d="m4.93 4.93 1.41 1.41"/>
+                <path d="m17.66 17.66 1.41 1.41"/>
+                <path d="M2 12h2"/>
+                <path d="M20 12h2"/>
+                <path d="m6.34 17.66-1.41 1.41"/>
+                <path d="m19.07 4.93-1.41 1.41"/>
+              </svg>
+              <div>
+                <h4 class="text-xs font-bold text-slate-800">Quy Trình Xử Lý Hệ Thống Tại Bước 2 (Line Art Pipeline)</h4>
+                <p class="text-[11px] text-slate-500">Chu trình 4 khâu từ cấu trúc phân cảnh đến khi chốt file ảnh nét vẽ</p>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">
+              VISUAL PRODUCTION
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <!-- 2.1 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-amber-500">
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">KHÂU 2.1</span></div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Tiếp Nhận &amp; Bố Cục Ngang 4 Cụm Hình</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                Chuyển 4 cụm nội dung đã duyệt ở Bước 1 thành bố cục ngang từ trái qua phải: <em>Bối cảnh &rarr; Chủ thể &rarr; Hành động &rarr; Kết quả</em>. Giữ khoảng cách sạch giữa các cụm để tránh chồng lấn bounding box ở Bước 3.
+              </p>
+              <div class="text-[10px] bg-amber-50/60 text-amber-800 p-2 rounded border border-amber-200 font-mono">
+                Bố cục ngang: Left &rarr; Mid-Left &rarr; Mid-Right &rarr; Right
+              </div>
+            </div>
+
+            <!-- 2.2 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-sky-500">
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-mono">KHÂU 2.2</span></div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Kích Hoạt Subagent &amp; Ép Bộ Quy Chuẩn</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                Hệ thống khởi chạy subagent <code class="text-sky-700 font-mono">image-generator</code>. Ép chuẩn nền be ấm <code class="text-amber-800 font-bold font-mono">#F5EBD7</code> và nét phác chì xám than dứt khoát nhằm phục vụ hiệu ứng vẽ 2 lớp: <strong>Ink (nét mực) &rarr; Color (tô màu)</strong>.
+              </p>
+              <div class="text-[10px] bg-sky-50/60 text-sky-800 p-2 rounded border border-sky-200 font-mono">
+                Style: Notion doodle • Dark charcoal • Warm beige paper
+              </div>
+            </div>
+
+            <!-- 2.3 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-rose-500">
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200 font-mono">KHÂU 2.3 (CỐT TỬ)</span></div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Bộ Lọc Cấm Kỵ Kỹ Thuật (Negative Constraints)</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                <strong>CẤM chữ số:</strong> Tránh bàn tay phải đồ lại chữ méo mó và AI sai chính tả (phụ đề do file SRT đảm nhiệm). <strong>CẤM 3D/tả thực:</strong> Tránh thuật toán tách cạnh Sobel/Canny ở Bước 5 bị vỡ nát thành hàng nghìn hạt mè.
+              </p>
+              <div class="text-[10px] bg-rose-50/60 text-rose-800 p-2 rounded border border-rose-200 font-mono">
+                STRICT: NO text, NO numbers, NO 3D, NO photorealism
+              </div>
+            </div>
+
+            <!-- 2.4 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-emerald-500">
+              <div class="mb-2"><span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">KHÂU 2.4 (BẮT BUỘC)</span></div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Trạm Kiểm Duyệt Thị Giác (Visual Checkpoint)</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                AI xuất file <code class="text-emerald-700 font-mono font-bold">scene-xx.png</code>, trình bày ảnh trong khung chat và <strong>DỪNG LẠI</strong>. Kiểm tra 3 tiêu chuẩn: đúng kịch bản, các cụm tách bạch, không dính chữ. Chờ người dùng duyệt mới bước sang Bước 3.
+              </p>
+              <div class="text-[10px] bg-emerald-50/60 text-emerald-900 p-2 rounded border border-emerald-200 font-mono">
+                Đầu ra: scene-xx.png &rarr; Chờ người dùng xác nhận duyệt
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mẫu Prompt Chuẩn Sản Xuất -->
+        <div class="mb-4">
+          <div class="text-xs font-bold text-slate-700 mb-2 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-slate-600 inline-block mr-1.5 -mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span>Mẫu Prompt Kỹ Thuật Chuẩn Cho AI Họa Sĩ (Production Prompt Template):</span>
+          </div>
+          <div class="code-block text-[11px] leading-relaxed">
+A 16:9 minimalist hand-drawn storyboard illustration on a solid warm beige parchment paper background (#F5EBD7). Clean Notion doodle style, thin dark charcoal sketch lines, loose charming ink drawings with lots of clean open negative space.
+
+Horizontal progression from left to right with four distinct elements:
+1. (Far left): [CỤM_1_BỐI_CẢNH: Mô tả nhân vật/bối cảnh mở đầu]
+2. (Middle-left): [CỤM_2_VẤN_ĐỀ_GIẢI_PHÁP: Mô tả biểu tượng cốt lõi kèm điểm nhấn màu cam nhẹ]
+3. (Middle-right): [CỤM_3_HÀNH_ĐỘNG: Mô tả các icon nhỏ kèm điểm nhấn màu xanh nhẹ]
+4. (Far right): [CỤM_4_KẾT_QUẢ: Mô tả kết quả tích cực, đầy năng lượng]
+
+Pure 2D flat sketch aesthetic, STRICTLY NO text, NO numbers, NO letters, NO words, NO labels, NO 3D rendering, NO photorealism.</div>
+        </div>
+
+        <!-- Accordion Chi tiết cơ chế Bước 2 -->
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-500">Chi tiết cơ chế kỹ thuật Bước 2</span>
+          <button onclick="toggleGeneric(this, 'step2-details-container')" class="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-full transition-all" title="Đóng/mở chi tiết Bước 2">
+            <span class="toggle-icon" style="transform:rotate(-90deg)">&#9660;</span>
+            <span class="toggle-label">Mở rộng</span>
+          </button>
+        </div>
+        <div id="step2-details-container" class="collapsible-container collapsed">
+          <div class="space-y-3.5 text-xs">
+            <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 mb-1">2.1. Bản chất thuật toán vẽ dòng chảy (Stream Handwriting)</h4>
+              <p class="text-slate-600 mb-1">
+                Tại Bước 5, script <code class="text-blue-600 font-mono">render_stream_whiteboard.py</code> không diễn hoạt video thông thường mà bóc tách ma trận ảnh thành 2 lớp:
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2 text-[11px]">
+                <div class="p-2.5 bg-white rounded border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-0.5">Lớp 1: Nét Mực (Ink Stream - 2/3 thời gian)</div>
+                  <div class="text-slate-600">Dùng bộ lọc Sobel/Canny tìm đường viền đậm nhất. Bàn tay cầm bút sẽ lướt theo các tọa độ này để vẽ nét phác trước.</div>
+                </div>
+                <div class="p-2.5 bg-white rounded border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-0.5">Lớp 2: Tô Màu (Color Fill - 1/3 thời gian)</div>
+                  <div class="text-slate-600">Sau khi xong nét mực, các mảng màu nhẹ (cam, xanh) sẽ từ từ hòa tan hiện rõ dần theo hiệu ứng cọ quét mượt mà.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 mb-1">2.2. Vì sao phải là mã màu giấy #F5EBD7?</h4>
+              <p class="text-slate-600 leading-relaxed">
+                Màu <code class="font-mono text-amber-800 font-bold bg-amber-50 px-1 py-0.5 rounded">#F5EBD7</code> là màu giấy Kraft ngà ấm tiêu chuẩn trong thiết kế đồ họa. Khi video xuất hiện bàn tay người thật cầm bút, sự tương phản giữa da tay, bóng đổ nhẹ và nền giấy ấm tạo nên cảm giác vật lý chân thật 100%, khắc phục hiện tượng "nhân tạo, chói mắt" của nền trắng điện tử `#FFFFFF`.
+              </p>
+            </div>
+
+            <div class="p-3.5 rounded-lg bg-emerald-50/60 border border-emerald-200">
+              <h4 class="font-bold text-emerald-900 mb-1">2.3. Quy tắc bàn giao của trạm kiểm duyệt Bước 2</h4>
+              <p class="text-emerald-800 leading-relaxed">
+                Hệ thống chỉ lưu file vào <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-emerald-300">projects/[tên-dự-án]/scene-xx.png</code> và tuyệt đối không tự ý phân vùng. Sự xác nhận của bạn là điều kiện tiên quyết để lấy kích thước pixel chuẩn xác (<code class="font-mono text-xs">canvas.width</code>, <code class="font-mono text-xs">canvas.height</code>) cho Bước 3.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Step 3 -->
       <div class="step-card p-6 md:p-7 border-l-4 border-l-emerald-500">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">
+        <div class="mb-2"><span class="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">
             BƯỚC 03
           </span>
-          <span class="text-xs font-semibold text-slate-500">Cấu hình phân vùng</span>
-        </div>
+          <span class="text-xs font-semibold text-slate-500">Cấu hình phân vùng</span></div>
         <h3 class="text-lg font-bold text-slate-900 mb-2">Phân Vùng Vẽ & Gán Thứ Tự Kể Chuyện (.annotation.json)</h3>
         <p class="text-sm text-slate-600 mb-3">
           Cắt bức tranh thành các phân vùng chữ nhật tương ứng với mốc xuất hiện của câu thoại phụ đề.
@@ -446,12 +610,10 @@
 
       <!-- Step 4 -->
       <div class="step-card p-6 md:p-7 border-l-4 border-l-purple-500">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-purple-50 text-purple-700 border border-purple-200 font-mono">
+        <div class="mb-2"><span class="text-xs font-extrabold px-2.5 py-1 rounded bg-purple-50 text-purple-700 border border-purple-200 font-mono">
             BƯỚC 04
           </span>
-          <span class="text-xs font-semibold text-slate-500">Xem trước trực quan</span>
-        </div>
+          <span class="text-xs font-semibold text-slate-500">Xem trước trực quan</span></div>
         <h3 class="text-lg font-bold text-slate-900 mb-2">Xem Trước & Tinh Chỉnh Trên Bàn Preview Web</h3>
         <p class="text-sm text-slate-600 mb-3">
           Kéo thả trực quan tọa độ hộp bao quanh hình và thời gian hiển thị (ms) trước khi render video thật.
@@ -467,12 +629,10 @@
 
       <!-- Step 5 -->
       <div class="step-card p-6 md:p-7 border-l-4 border-l-rose-500">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-rose-50 text-rose-700 border border-rose-200 font-mono">
+        <div class="mb-2"><span class="text-xs font-extrabold px-2.5 py-1 rounded bg-rose-50 text-rose-700 border border-rose-200 font-mono">
             BƯỚC 05
           </span>
-          <span class="text-xs font-semibold text-slate-500">Xuất video hoạt hình</span>
-        </div>
+          <span class="text-xs font-semibold text-slate-500">Xuất video hoạt hình</span></div>
         <h3 class="text-lg font-bold text-slate-900 mb-2">Render Video Hoạt Hình Bút Vẽ Tay (Whiteboard Rendering)</h3>
         <p class="text-sm text-slate-600 mb-3">
           Xuất ra file video MP4 chất lượng cao với hiệu ứng bàn tay cầm bút thực lướt vẽ liên tục: nét phác thảo (<code class="font-mono text-rose-700">ink</code>) đi trước rồi phủ màu nhẹ (<code class="font-mono text-rose-700">color</code>) đi sau theo tỉ lệ 2:1.
@@ -483,12 +643,10 @@
 
       <!-- Step 6 -->
       <div class="step-card p-6 md:p-7 border-l-4 border-l-cyan-500">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-cyan-50 text-cyan-700 border border-cyan-200 font-mono">
+        <div class="mb-2"><span class="text-xs font-extrabold px-2.5 py-1 rounded bg-cyan-50 text-cyan-700 border border-cyan-200 font-mono">
             BƯỚC 06
           </span>
-          <span class="text-xs font-semibold text-slate-500">Hoàn thiện âm thanh</span>
-        </div>
+          <span class="text-xs font-semibold text-slate-500">Hoàn thiện âm thanh</span></div>
         <h3 class="text-lg font-bold text-slate-900 mb-2">Lồng Tiếng, Âm Thanh & Ghép Cảnh</h3>
         <p class="text-sm text-slate-600 mb-3">
           Ghép thuyết minh (giọng thật hoặc AI TTS) khớp phụ đề, thêm tiếng cọ bút và gộp nhiều cảnh thành video lớn.
@@ -503,7 +661,9 @@
     <!-- Section 3: Danh mục công cụ -->
     <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm space-y-4">
       <div class="flex items-center gap-2.5 border-b border-slate-100 pb-4">
-        <span class="text-xl">🛠️</span>
+        <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
         <h2 class="text-lg font-bold text-slate-900">3. Danh Mục Công Cụ & Thư Mục Dự Án</h2>
       </div>
 
@@ -558,18 +718,23 @@
 
 <script>
   function toggleAllSubSteps(btn) {
-    const container = document.getElementById('sub-steps-container');
+    toggleGeneric(btn, 'sub-steps-container');
+  }
+
+  function toggleGeneric(btn, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     const isHidden = container.classList.contains('collapsed');
-    const icon = btn.querySelector('.toggle-all-icon');
-    const label = btn.querySelector('.toggle-all-label');
+    const icon = btn.querySelector('.toggle-all-icon, .toggle-icon');
+    const label = btn.querySelector('.toggle-all-label, .toggle-label');
     if (isHidden) {
       container.classList.remove('collapsed');
-      icon.style.transform = '';
-      label.textContent = 'Thu gọn';
+      if (icon) icon.style.transform = '';
+      if (label) label.textContent = 'Thu gọn';
     } else {
       container.classList.add('collapsed');
-      icon.style.transform = 'rotate(-90deg)';
-      label.textContent = 'Mở rộng';
+      if (icon) icon.style.transform = 'rotate(-90deg)';
+      if (label) label.textContent = 'Mở rộng';
     }
   }
 </script>
