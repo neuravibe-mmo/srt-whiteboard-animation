@@ -62,35 +62,37 @@ Tài liệu hướng dẫn chi tiết quy trình từng bước để chuyển �
 
 ---
 
+> [!NOTE]
+> **Nguyên tắc phân cảnh:** Một video dài sẽ gồm nhiều phân cảnh (Scene). Mỗi phân cảnh là một bức tranh độc lập, do đó **Bước 2 sẽ chạy lặp lại cho từng phân cảnh** (lần lượt tạo `scene-01.png`, `scene-02.png`...).
+
 ### Bước 2: Tạo Tranh Vẽ Nét (Line Art)
 
 - **Mục tiêu:** Tạo hình ảnh minh họa bao quát toàn bộ nội dung của phân cảnh theo quy chuẩn thị giác nghiêm ngặt để phục vụ thuật toán bóc tách nét vẽ tay.
 
-#### 5 Quy chuẩn thị giác bắt buộc:
-| Yếu tố | Tiêu chuẩn kỹ thuật | Mục đích / Lý do |
-|---|---|---|
-| **Tỉ lệ khung hình** | `16:9` (`1376×768` hoặc `1920×1080`) | Chuẩn video YouTube & màn hình ngang |
-| **Nền giấy ấm** | Vàng be ấm `#F5EBD7` | Tạo cảm giác giấy vẽ tự nhiên, không chói gắt như nền trắng `#FFFFFF` |
-| **Phong cách nét** | Notion Doodle / Phác chì xám than | Nét mảnh, dứt khoát, dễ bóc tách lớp Ink |
-| **Màu điểm xuyết** | Cam / Xanh pastel nhẹ | Phục vụ hiệu ứng tô màu 2 lớp (Ink 2/3 thời gian → Color 1/3 thời gian) |
-| **Negative Space** | Chừa nhiều khoảng trống | Giúp các cụm hình tách biệt, không bị dính bounding box ở Bước 3 |
-
-#### 2 Lệnh cấm cốt tử (Negative Constraints):
+#### Bộ lọc cấm kỵ kỹ thuật mà Họa sĩ AI phải tuân thủ:
 1. **Tuyệt đối KHÔNG vẽ sẵn chữ, số, nhãn (No Text/Numbers):** Tránh bàn tay phải đồ lại chữ méo mó và AI sai chính tả (phụ đề do file SRT đảm nhiệm).
 2. **Tuyệt đối KHÔNG 3D, không đổ bóng khối, không ảnh thực (No 3D/Photorealism):** Tránh thuật toán tách cạnh Sobel/Canny ở Bước 5 bị vỡ nát thành hàng nghìn hạt mè.
 
-#### Mẫu Prompt kỹ thuật chuẩn (Production Prompt Template):
-```text
-A 16:9 minimalist hand-drawn storyboard illustration on a solid warm beige parchment paper background (#F5EBD7). Clean Notion doodle style, thin dark charcoal sketch lines, loose charming ink drawings with lots of clean open negative space.
+#### Bộ 3 Mẫu Prompt Chuẩn Cho Bước 2:
 
-Horizontal progression from left to right with four distinct elements:
-1. (Far left): [CỤM_1_BỐI_CẢNH: Mô tả nhân vật/bối cảnh mở đầu]
-2. (Middle-left): [CỤM_2_VẤN_ĐỀ_GIẢI_PHÁP: Mô tả biểu tượng cốt lõi kèm điểm nhấn màu cam nhẹ]
-3. (Middle-right): [CỤM_3_HÀNH_ĐỘNG: Mô tả các icon nhỏ kèm điểm nhấn màu xanh nhẹ]
-4. (Far right): [CỤM_4_KẾT_QUẢ: Mô tả kết quả tích cực, đầy năng lượng]
+##### 1. Prompt 2A: Câu Lệnh Vẽ Tranh (Bạn Ra Lệnh Bằng Tiếng Việt)
+> “Dựa trên 4 cụm phân cảnh đã duyệt ở Bước 1, hãy vẽ bức tranh phác thảo bảng trắng tỉ lệ 16:9:  
+> - **Màu nền:** Giấy vàng be ấm #F5EBD7 (tuyệt đối không dùng nền trắng tinh).  
+> - **Phong cách:** Nét phác chì than 2D tối giản (Notion doodle), chừa nhiều khoảng trống sạch quanh đối tượng.  
+> - **Bố cục ngang từ trái qua phải gồm 4 cụm riêng biệt:**  
+>   1. (Bên trái): [Mô tả cụm 1 — Bối cảnh / Vấn đề mở đầu]  
+>   2. (Giữa trái): [Mô tả cụm 2 — Chủ thể cốt lõi, điểm xuyết chút màu cam nhẹ]  
+>   3. (Giữa phải): [Mô tả cụm 3 — Hành động / Giải pháp, điểm xuyết chút màu xanh nhẹ]  
+>   4. (Bên phải): [Mô tả cụm 4 — Kết quả tích cực, tràn đầy năng lượng]  
+> - **Điều cấm kỵ:** Tuyệt đối KHÔNG vẽ chữ, không số, không nhãn mác; không đổ bóng 3D hay ảnh chụp tả thực.”
+> 
+> *(Ghi chú: Bạn chỉ cần ra lệnh bằng tiếng Việt. Hệ thống AI sẽ tự động dịch ngầm sang tiếng Anh chuẩn để gửi cho mô hình vẽ tranh).*
 
-Pure 2D flat sketch aesthetic, STRICTLY NO text, NO numbers, NO letters, NO words, NO labels, NO 3D rendering, NO photorealism.
-```
+##### 2. Prompt 2B: Lời Nhắc Kiểm Duyệt (Tại Trạm Kiểm Duyệt Khâu 2.4)
+> *"Tôi đã hoàn thành tranh vẽ nét cho [scene-01: Tên_Cảnh]. Mời bạn kiểm tra: 1. Đúng kịch bản chưa? 2. Bố cục 4 cụm đã tách rời chưa? 3. Có dính chữ số nào không? Hãy gõ 'DUYỆT' để chuyển sang Bước 3."*
+
+##### 3. Prompt 2C: Lệnh Yêu Cầu Vẽ Lại / Tinh Chỉnh (Khi cần sửa)
+> *"Bức tranh cần chỉnh sửa: Hãy tách khoảng cách giữa [Cụm 1] và [Cụm 2] rộng hơn nữa. Xóa bỏ chi tiết [X] và đảm bảo tuyệt đối không có chữ số. Giữ nguyên style Notion doodle và nền be ấm #F5EBD7."*
 
 - **Đầu ra:** File ảnh nét vẽ `scene-xx.png`.
 - **Trạm kiểm duyệt Bước 2:** Hiển thị ảnh và dừng lại chờ người dùng duyệt trước khi sang Bước 3.
