@@ -1,154 +1,171 @@
 ---
 name: srt-whiteboard-animation
-description: 将 SRT 字幕做成暖米黄纸张底的白板手绘动画：读字幕→输出配图策略→确认后生成统一风格线稿→按叙事语义标注分区→预览台调整→渲染 MP4。编排沿用分区遮罩揭示（annotation.json / sequence / startMs / protectedRegions），但每个区域内的落墨换成 stream 的连续笔迹（骨架/网格 ink→color）。当用户提供 SRT 字幕并要求"字幕做成白板手绘/流式笔迹视频""SRT 生成白板动画""按字幕分镜画手绘"时触发。
+description: Biến phụ đề SRT (hoặc từ ý tưởng/kịch bản lời thoại ban đầu) thành video hoạt hình vẽ tay bảng trắng trên nền giấy vàng be ấm (#F5EBD7). Quy trình: Lên ý tưởng/kịch bản → Xuất/phân tích SRT → Lập chiến lược phân cảnh → Tạo tranh phác thảo thống nhất → Đánh dấu phân vùng theo ngữ nghĩa kịch bản → Tinh chỉnh trên bàn xem trước Web → Render video MP4 với nét vẽ dòng chảy liên tục (stream ink→color). Kích hoạt khi người dùng yêu cầu "làm video vẽ tay từ phụ đề SRT", "chuyển kịch bản thành video bảng trắng", "whiteboard animation từ SRT" hoặc "phân cảnh vẽ tay theo câu thoại".
 ---
 
-# SRT 白板动画（mask 编排 + stream 画法）
+# Hoạt Hình Vẽ Tay Bảng Trắng Từ Phụ Đề SRT (Mask Orchestration + Stream Handwriting)
 
-把 SRT 字幕转成白板手绘动画：**编排**沿用分区遮罩揭示（按叙事顺序逐区域揭示、未开始区域完全隐藏、重叠用 `protectedRegions` 保护）；**画法**换成流式笔迹——每个区域在自己的允许掩码内，笔尖沿骨架/网格连续滑行落墨（起笔 ink → 添彩 color），所有区域共享一张持久画布，已画完的区域保留在画布上。所有面向用户的说明、分镜、配置和界面文字必须使用中文。
+Hệ thống chuyển đổi phụ đề SRT hoặc kịch bản lời thoại thành video hoạt hình vẽ tay bảng trắng:
+- **Biên đạo (Orchestration):** Điều khiển xuất hiện theo từng phân vùng mặt nạ ngữ nghĩa (xuất hiện tuần tự theo mạch kể chuyện, các chi tiết chưa tới thời điểm sẽ được giấu kín hoàn toàn, các vùng giao nhau được bảo vệ bằng `protectedRegions`).
+- **Nét vẽ (Stream Drawing):** Đầu ngòi bút lướt vẽ liên tục trong từng vùng mặt nạ cho phép (phác nét mực `ink` $\rightarrow$ phủ màu nhẹ `color`), tất cả các vùng dùng chung một mặt giấy canvas; vùng đã vẽ xong được giữ nguyên vẹn trên giấy.
+- **Ngôn ngữ phản hồi:** Giao tiếp, giải thích, phân cảnh và văn bản cấu hình tương tác linh hoạt theo ngôn ngữ người dùng đang sử dụng (mặc định ưu tiên Tiếng Việt, hỗ trợ đầy đủ English và 中文).
 
-与逐格跳变或矩形擦除不同：本 skill 的笔迹是**连贯流动**的；与整图 stream 不同：本 skill 按**字幕叙事分区**依次作画，可控制每个元素的出场顺序与时序。
+Khác biệt với phương pháp lật từng khung hình rời rạc hay xóa khối chữ nhật thô: nét bút của skill này **liên tục và chuyển động tự nhiên**; khác với stream toàn ảnh ngẫu nhiên: skill này **vẽ lần lượt theo từng phân cảnh ngữ nghĩa của phụ đề**, kiểm soát chặt chẽ thứ tự và thời gian xuất hiện của từng phần tử.
 
-## 默认实现参数
+---
 
-| 项目 | 默认要求 |
+## Bảng Thông Số Kỹ Thuật Mặc Định
+
+| Hạng mục | Quy chuẩn mặc định |
 |---|---|
-| 纸张背景 | 生成图使用暖米黄旧纸色（建议 `#F5EBD7`）；渲染时从原图距四角内缩取样染底，禁止纯白。 |
-| 画法 | 每区域 stream 连续笔迹：起笔 `ink`（铺线稿）→ 添彩 `color`（还原原色）；权重 `ink:color = 2:1`。 |
-| 笔迹路径 | `--ink-path grid`（网格，默认，稳）或 `skeleton`（骨架追踪，线稿清晰的插画更贴合）。 |
-| 上色风格 | `--color-fill contour-wipe`（轮廓扫描，默认）或 `brush`（沿轨迹刷）。 |
-| 未绘制区域 | 区域的允许掩码 = 矩形 `region` 扣除「后续区域 + protectedRegions」；未开始区域完全隐藏。 |
-| 时长来源 | 每张图的 `sceneDurationMs` 来自该幕字幕的时间跨度（建议 25–35 秒/幕）。 |
-| 编辑框 | 预览台默认显示全部编号编辑框；编辑框不属于动画画面内容。 |
+| **Nền giấy** | Màu be giấy ấm cũ (khuyên dùng `#F5EBD7`); khi render lấy mẫu màu từ 4 góc ảnh nguồn để nhuộm nền, cấm dùng màu trắng tinh. |
+| **Cách vẽ** | Nét vẽ lướt liên tục (stream): bắt đầu bằng nét mực phác thảo `ink` $\rightarrow$ phủ màu nhẹ `color`; tỉ lệ thời gian `ink : color = 2 : 1`. |
+| **Quỹ đạo nét vẽ** | `--ink-path grid` (lưới zíc-zắc, mặc định, ổn định cao) hoặc `skeleton` (bám khung xương, hợp tranh nét mảnh rõ ràng). |
+| **Phong cách tô màu** | `--color-fill contour-wipe` (quét theo đường viền, mặc định) hoặc `brush` (quét cọ dọc theo quỹ đạo). |
+| **Vùng chưa vẽ** | Mặt nạ cho phép = hộp `region` trừ đi 「các vùng kế tiếp + `protectedRegions`」; vùng chưa tới lượt bị ẩn hoàn toàn. |
+| **Thời lượng cảnh** | `sceneDurationMs` lấy từ khoảng thời gian của đoạn phụ đề tương ứng (khuyên dùng 25–35 giây/cảnh). |
+| **Hộp biên tập** | Bàn Preview Web mặc định hiển thị viền các hộp đã đánh số; hộp này chỉ là công cụ căn chỉnh, không thuộc nội dung video. |
 
-## 统一出图视觉规范（强制）
+---
 
-所有场景的源图必须遵循同一套视觉语言；生成前把以下要求完整写入出图提示词，生成后逐条检查：
+## Quy Chuẩn Thị Giác Tranh Vẽ Bắt Buộc
 
-- **风格与构图：** 极简手绘插图、纯素描草图风格、类似 Notion 的克制涂鸦美学。以概念表达为主，不追求写实；构图简洁、背景干净、大量留白，整体情感平和、清晰，系列内线条/人物/配色一致。
-- **颜色与材质：** 米色纸张背景 `#F5EBD7`、深灰色草图线条；仅可用红色、橙色、蓝色 作少量概念性点缀。不得使用其他强调色、高饱和度配色或复杂纹理。
-- **人物与对象：** 对象以简洁轮廓、少量线条和留白表达，强调关系/变化/核心概念，而非真实比例、材质与细节。
-- **绝对禁止：** 场景源图中的任何文字、词语、字母、数字、字体或标签；写实感、摄影细节、3D 效果、绘画质感；复杂场景、密集背景、繁复装饰和高饱和度画面。
-- **绘制手部例外：** 若用户明确说明笔杆上的文字是其标识并要求保留，可保留 `drawing-hand.png` 笔杆上的标识；它不属于场景源图文字，也不需要清除或重绘。未获得用户明确说明时，仍按无文字画面处理。
+Tất cả các hình ảnh nguồn phải tuân thủ nghiêm ngặt cùng một ngôn ngữ thiết kế:
 
-## 确认关卡（强制）
+- **Phong cách & Bố cục:** Tranh phác thảo doodle tối giản (tương tự phong cách minh họa Notion). Tập trung diễn tả khái niệm, không tả thực; bố cục thoáng đãng, nền giấy sạch sẽ, chừa nhiều khoảng trắng (negative space), nét vẽ đồng nhất xuyên suốt các cảnh.
+- **Màu sắc & Chất liệu:** Nền giấy be ấm `#F5EBD7`, đường nét bút chì xám đậm; chỉ được dùng thêm màu đỏ, cam, hoặc xanh dương với liều lượng rất nhỏ để nhấn mạnh khái niệm. Tuyệt đối không dùng màu có độ bão hòa cao hoặc họa tiết chất liệu phức tạp.
+- **Nhân vật & Đồ vật:** Thể hiện bằng đường nét viền đơn giản, tập trung vào mối quan hệ, sự thay đổi hoặc ý tưởng cốt lõi, không đòi hỏi tỷ lệ giải phẫu chân thực hay chi tiết vụn vặt.
+- **TUYỆT ĐỐI CẤM:** Không được có bất kỳ chữ viết, từ ngữ, chữ cái, con số, font chữ hay nhãn mác nào xuất hiện sẵn trong tranh; cấm phong cách ảnh chụp, chi tiết 3D đổ bóng khối hoặc bề mặt sơn dầu.
+- **Ngoại lệ bàn tay cầm bút:** Nếu người dùng yêu cầu giữ logo trên cán bút của file `drawing-hand.png`, cho phép giữ lại; chi tiết này thuộc công cụ vẽ, không thuộc tranh cảnh.
 
-默认工作流的**每一步完成后都必须停止并等待用户明确确认**，才可开始下一步。确认前不得生成下一步的图片、标注、预览、视频或合并文件；不得把“未回复”“此前的笼统授权”“用户没有反对”视为确认。用户要求修改上一步时，只重做该步，并在完成后再次等待确认。
+---
 
-唯一的连带动作是：**标注 JSON 创建完成后，必须立即自动打开预览台并载入该 JSON 所在目录**；这属于第 3 步的交付，不需要为“打开预览台”另行等待确认。若浏览器的 File System Access API 要求用户手势，使用浏览器界面选择这个已确定的目录；不得因此向用户索要额外确认或改为让用户自行打开预览台。
+## Trạm Kiểm Soát Bắt Buộc (Confirmation Checkpoints)
 
-## 工作流程
+> [!IMPORTANT]
+> **Quy tắc bất di bất dịch:** Sau khi hoàn thành mỗi bước lớn, **bắt buộc DỪNG LẠI và CHỜ XÁC NHẬN MINH BẠCH** từ người dùng mới được tiến hành bước tiếp theo.
+> - Tuyệt đối không tự ý sinh ảnh, sinh file annotation, render video hoặc gộp file khi người dùng chưa đồng ý bước trước.
+> - Không xem sự im lặng hay phê duyệt chung chung trước đó là sự xác nhận.
+> - **Ngoại lệ duy nhất:** Sau khi tạo xong file cấu hình `.annotation.json`, hệ thống được phép tự động mở ngay trang `assets/preview.html` trên trình duyệt để người dùng xem trước (đây là phần bàn giao của Bước 3).
 
-1. **读字幕、出策略（不生成图片）。** 用 `scripts/parse_srt.py` 把 SRT 解析成字幕条并按 25–35 秒/幕给出建议分镜。据此输出配图策略：每幕的场景编号、核心表达、画面主体、对应字幕区间与 `sceneDurationMs`。每幕只表达一个核心意思。**完成后停止，等待用户确认策略。**
-2. **生成线稿。** 仅在用户确认策略后，按“统一出图视觉规范”逐幕生成 16:9 暖米黄旧纸张底线稿图，背景 `#F5EBD7`，主体之间保留充足留白便于自动拆分；不得生成文字、复杂照片、重叠对象或与规范冲突的元素。**完成后停止，展示线稿并等待用户确认。**
-3. **先读字幕再看图，然后标注并打开预览台。** 仅在用户确认线稿后，先阅读该图对应的字幕、再实际查看图片、并获取原图像素宽高；不得只凭字幕臆测画面，也不得只按画面位置机械排序。先提炼字幕叙事事件，再把图中可见主体对应到事件，按“场景铺垫 → 关键人物/物体 → 动作冲突或变化 → 反应/结果”的语义顺序安排绘制。随后创建 `<图片名>.annotation.json`。创建完成后，立即用默认浏览器打开 `assets/preview.html`，并通过预览台的“打开文件夹”载入**该标注文件所在目录**的全部 `<名称>.png` + `<名称>.annotation.json`；不得只给出文件路径或要求用户自行操作。**预览台已带入目录后停止，等待用户确认标注与预览内容。**
-4. **生成区域预览图。** 仅在用户确认标注与预览内容后，用 `render_annotation_preview.py` 出编号/方向检查图，核对分区与叙事顺序一致、区域都在画布内、重叠主体用 `protectedRegions` 保护。**完成后停止，等待用户确认预览图。**
-5. **在预览台调整并保存。** 仅在用户确认预览图后，在已打开且已载入对应目录的预览台调整：默认（未播放）显示完整图片和区域框；画布是**矩形代理**：拖区域四边四角改 `region`，右侧改名称/方向/**开始(ms)/结束(ms)**（时长= 结束−开始，只读）与**字幕**，拖动模块列表**调整顺序**（自动重排 `sequence`），选中模块自动高亮对应字幕；拖时间轴或按播放看揭示（未开始区域不显示）；`direction` 只影响此代理。改完点“保存本场景/全部保存”写回原 `.annotation.json`（含每区域 `subtitle`，并把 `sceneDurationMs` 对齐到最后区域结束+0.5s）。**保存后停止，等待用户确认最终标注与时序。**
-6. **命令行渲染成片。** 仅在用户确认最终标注与时序后，用 `render_stream_whiteboard.py` 逐幕出全清 MP4，抽查开场、任意重叠模块中段、结尾三个时间点。**完成后停止，等待用户确认成片。**
-7. **多幕合并（仅适用于多幕）。** 仅在用户确认所有单幕成片后，用 `merge_scenes.py` 按顺序合并成一条。**完成后停止，等待用户确认最终合成视频。**
+---
 
-## 目录约定
+## Quy Trình Làm Việc Hoàn Chỉnh (7 Bước)
 
-在用户项目中创建：
+### 1. Từ Ý Tưởng Đến Kịch Bản, File SRT & Phân Cảnh (Không tạo ảnh)
+- **1.1 Ý tưởng & Kịch bản thoại:** Nếu người dùng bắt đầu từ con số 0, hỗ trợ lên dàn ý và viết kịch bản thoại ngắn gọn 25–30s (khoảng 60–80 từ), cấu trúc: `Hook mở đầu → Giải pháp cốt lõi → Kêu gọi hành động`.
+- **1.2 Thu âm & Xuất file SRT:** 
+  - *Chuẩn sản xuất:* Hướng dẫn thu âm rồi xuất file `.srt` chuẩn 100% qua CapCut/Premiere/Whisper.
+  - *Làm nhanh bằng AI:* Ước lượng mốc thời gian `startMs --> endMs` chuẩn 25–30s.
+  - *Nếu đã có sẵn file SRT:* Bỏ qua 1.1 và 1.2, đi thẳng vào 1.3.
+- **1.3 Phân tích SRT & Lập phân cảnh:** Chạy `scripts/parse_srt.py <phụ_đề.srt> --target-sec 30` để phân cảnh (25–35s/màn). Lập danh sách 3–4 cụm hình ảnh theo mạch: `Bối cảnh → Nhân vật/Chủ thể → Hành động → Kết quả`.
+- **1.4 Trạm kiểm duyệt phân cảnh (dạng text):** Xuất bảng mô tả phân cảnh bằng chữ. **DỪNG LẠI và chờ người dùng duyệt.**
+
+### 2. Tạo Tranh Vẽ Nét (Line Art)
+- Chỉ sau khi người dùng duyệt phân cảnh ở Bước 1, tiến hành tạo ảnh phác thảo tỉ lệ 16:9, nền be `#F5EBD7`, chừa nhiều khoảng trắng quanh từng đối tượng, tuyệt đối không có chữ.
+- **DỪNG LẠI, hiển thị ảnh và chờ người dùng xác nhận.**
+
+### 3. Đọc Kịch Bản, Xem Tranh, Đánh Dấu Phân Vùng & Mở Bàn Preview
+- Đọc kỹ mốc câu thoại và quan sát vị trí thực tế của từng đối tượng trên ảnh (lấy kích thước pixel nguyên bản `canvas.width` và `canvas.height`).
+- Gán tọa độ bounding box (`x, y, width, height`), thứ tự vẽ (`sequence`), mốc thời gian (`startMs`, `durationMs`) và nội dung câu thoại tương ứng vào file `<tên_ảnh>.annotation.json`.
+- Tự động mở tệp `assets/preview.html` trên trình duyệt mặc định để người dùng xem trước.
+- **DỪNG LẠI và chờ người dùng duyệt cấu hình phân vùng.**
+
+### 4. Tạo Ảnh Sơ Đồ Kiểm Tra Phân Vùng
+- Chạy `scripts/render_annotation_preview.py` để xuất ảnh sơ đồ các hộp chữ nhật có đánh số và mũi tên hướng vẽ, kiểm tra xem các vùng có nằm trọn trong canvas và bao kín chủ thể hay không.
+- **DỪNG LẠI và chờ người dùng duyệt ảnh sơ đồ.**
+
+### 5. Tinh Chỉnh Trên Bàn Preview Web
+- Người dùng (hoặc AI hỗ trợ) điều chỉnh trực tiếp các cạnh hộp chữ nhật, căn thời gian bắt đầu/kết thúc khớp từng câu nói trên giao diện `preview.html` và nhấn Lưu.
+- **DỪNG LẠI và chờ xác nhận thông số cuối cùng.**
+
+### 6. Render Video Hoạt Hình Bút Vẽ Tay (MP4)
+- Chạy script render chất lượng cao:
+  ```bash
+  python scripts/render_stream_whiteboard.py <ảnh.png> <cấu_hình.json> <kết_quả.mp4>
+  ```
+- Kiểm tra ngẫu nhiên 3 thời điểm: lúc mở màn, lúc đang vẽ giữa chừng và khung hình hoàn thiện cuối cùng.
+- **DỪNG LẠI và bàn giao video cho người dùng duyệt.**
+
+### 7. Ghép Nối Đa Cảnh & Hoàn Thiện Âm Thanh
+- Nếu video gồm nhiều phân cảnh (`scene-01`, `scene-02`...), dùng `scripts/merge_scenes.py` để ghép liền mạch theo thứ tự.
+- Ghép file thu âm giọng đọc (hoặc giọng AI) và hiệu ứng tiếng ngòi bút vào video bằng FFmpeg.
+- **Bàn giao thành phẩm cuối cùng.**
+
+---
+
+## Quy Ước Thư Mục Dự Án
+
+Trong dự án của người dùng, các tệp nên được tổ chức thống nhất:
 
 ```text
-assets/whiteboard/<项目名>/
-  scene-01-<名称>.png
-  scene-01-<名称>.annotation.json     # 与 png 同名
-  scene-01-<名称>-whiteboard.mp4      # 成片
-  scene-01-<名称>-preview.mp4         # 真实片段（预览台生成，低清）
+projects/<tên_dự_án>/
+  <tên_dự_án>.srt
+  scene-01-<tên_cảnh>.png
+  scene-01-<tên_cảnh>.annotation.json     # Cùng tên với file PNG
+  scene-01-<tên_cảnh>.mp4                 # Video thành phẩm từng cảnh
+  final_video.mp4                         # Video hoàn thiện có tiếng
 ```
 
-图片与配置必须同名：`foo.png` 对应 `foo.annotation.json`。预览台据此自动加载配置。
+---
 
-## 语义排序与像素级标注（必须执行）
-
-1. **阅读依据：** 标注前必须同时具备字幕与已查看的原图。缺任一项先索取，不得生成标注。
-2. **顺序依据：** `sequence`、`startMs` 与 `label` 必须反映字幕中的事件先后，而非仅按从左到右、从上到下或视觉显眼程度。
-3. **坐标依据：** 每个模块输出原图坐标系的整数像素 `x`、`y`、`width`、`height`；原点左上角，禁止百分比/比例/估算坐标或省略尺寸。`canvas.width`/`canvas.height` 必须等于原图像素尺寸。
-4. **模块字段：** 每个元素含 `sequence`、`narrativeRole`、`subtitle`、`region`、`reveal`、`handPath`。`narrativeRole` 用中文说明其在字幕中的叙事作用；`subtitle` 存该区域对应的字幕文本（来自 SRT，供预览台联动与后续用途）；`sequence` 从 1 起连续。
-5. **校验：** 生成预览前检查每个区域是否在画布内、是否覆盖对应可见主体、是否与字幕事件相符；重叠主体用 `protectedRegions` 保护后绘制模块。
-
-## 时序模型（stream 画法专用）
-
-- **每幕总时长** `sceneDurationMs` 来自该幕字幕时间跨度（`parse_srt.py` 的 `scenes[].sceneDurationMs`）。
-- **区域串行作画：** stream 画法是一支笔在动，同一幕内各区域应**在时间上依次进行**（`startMs` 不重叠）：下一区域从上一区域 `startMs + durationMs`（+ 可选 100–300ms 呼吸）开始。若 `startMs` 重叠，渲染器仍按顺序处理，但视觉上不再是并发。
-- **区域内 ink→color：** 每个区域的 `durationMs` 会按 `ink:color = 2:1` 切成起笔段和添彩段。`durationMs` 由预览台的**开始/结束时间**决定（结束−开始），可对齐该区域对应字幕的时长；也可用 150 像素/秒 × 绘制距离作为初始估算。
-- **凝视收尾：** 全部区域画完后自动补到 `sceneDurationMs`，并保证结尾至少停留 0.5 秒完整原图。
-- `reveal.direction` 在 stream 画法下**不决定真实笔迹**（笔迹由骨架/网格自动生成），仅供预览台的矩形代理演示；保留它是为了预览台可用。
-
-## 遮罩不变量（编排层，必须执行）
-
-- 在时间 `t`，模块仅可显示其 `reveal.startMs ≤ t` 之后、且不超过当前作画进度的像素；未开始模块的任何线条/填充/图像都不得出现。
-- 每个区域的**允许掩码** = 矩形 `region` 扣除全部**后续模块的 `region`**，再扣除本模块 `reveal.protectedRegions`。stream 落墨被限制在允许掩码内，因此后续区域不会提前露线。
-- `protectedRegions` 采用与 `region` 相同的原图整数像素坐标，用于矩形过大、主体交叠或背景线条可能泄露的情况。
-- 渲染器已实现"限制在允许掩码内落墨 → 后续区域与保护区天然不被触碰"的顺序；预览台矩形代理用等价的 `destination-out` 扣除演示同一编排。
-
-## 配置示例
+## Cấu Trúc File Cấu Hình Mẫu (`.annotation.json`)
 
 ```json
 {
   "sceneId": "scene-01",
-  "canvas": { "width": 1672, "height": 941 },
-  "storyBasis": "该幕字幕的事件摘要",
-  "sceneDurationMs": 9000,
+  "canvas": { "width": 1376, "height": 768 },
+  "storyBasis": "Tóm tắt ngắn gọn diễn biến câu chuyện trong cảnh",
+  "sceneDurationMs": 26000,
   "elements": [
     {
-      "id": "rockery",
-      "label": "假山场景",
+      "id": "element-1",
+      "label": "Tên đối tượng",
       "sequence": 1,
-      "narrativeRole": "故事的场景铺垫",
-      "subtitle": "猴子山上，一只小猴子坐在假山顶端，手里拿着香蕉。",
-      "type": "structure",
-      "region": { "x": 20, "y": 120, "width": 540, "height": 780 },
-      "reveal": { "direction": "top_to_bottom", "startMs": 300, "durationMs": 2600, "maskPaddingPx": 22, "protectedRegions": [] },
-      "handPath": { "start": [290, 130], "end": [290, 890], "easing": "easeInOut" }
+      "narrativeRole": "Bối cảnh / Nhân vật / Hành động / Kết quả",
+      "subtitle": "Nội dung câu phụ đề tương ứng trong file SRT",
+      "type": "character",
+      "region": { "x": 40, "y": 220, "width": 380, "height": 350 },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 500,
+        "durationMs": 4700,
+        "maskPaddingPx": 20,
+        "protectedRegions": []
+      },
+      "handPath": { "start": [230, 240], "end": [230, 550], "easing": "easeInOut" }
     }
   ]
 }
 ```
 
-> `direction` / `handPath` 仅供预览台矩形代理使用；成片笔迹由 stream 自动生成，无需精调。
+---
 
-## 使用脚本
+## Hướng Dẫn Dòng Lệnh Thực Thi
 
-所有渲染脚本用 skill 内 `.venv` 的解释器运行（依赖隔离）。
+Chạy toàn bộ script bằng Python trong môi trường ảo `.venv`:
 
-1. **准备环境**（首次或缺依赖时）：
+1. **Khởi tạo môi trường (Lần đầu):**
    ```bash
-   python scripts/prepare_env.py --check   # 探测；成功末行输出 ENV_PY=<路径>，捕获备用
-   python scripts/prepare_env.py           # 缺则建 .venv 并装 opencv-python/numpy/av
+   python scripts/prepare_env.py
    ```
-2. **解析字幕 + 建议分镜**：
+2. **Phân tích phụ đề SRT:**
    ```bash
-   python scripts/parse_srt.py <字幕.srt> --target-sec 30 --min-sec 25 --max-sec 35
+   python scripts/parse_srt.py <phụ_đề.srt> --target-sec 30 --min-sec 25 --max-sec 35
    ```
-3. **区域编号预览图**：
+3. **Xuất ảnh sơ đồ phân vùng kiểm tra:**
    ```bash
-   python scripts/render_annotation_preview.py <图片> <标注> <预览图输出>
+   python scripts/render_annotation_preview.py <ảnh.png> <cấu_hình.json> <ảnh_preview.png>
    ```
-4. **预览台（无需服务器）**：直接用 Chrome / Edge 打开 `assets/preview.html`，点"打开文件夹"选目录 → 载入全部图片+同名标注 → 拖拽编辑 → "保存"写回原文件。写回需 File System Access API（Chrome/Edge）；其它浏览器改为下载后手动覆盖。渲染仍走命令行（下面第 5 步）。
-5. **渲染单幕成片**：
+4. **Mở bàn Preview trực quan trên Web:**
    ```bash
-   <ENV_PY> scripts/render_stream_whiteboard.py <图片> <标注> <输出mp4> assets/drawing-hand.png \
-       [--ink-path grid|skeleton] [--color-fill contour-wipe|brush] [--total-ms <毫秒>]
+   open assets/preview.html
    ```
-   `--total-ms` 缺省时用标注里的 `sceneDurationMs`。末行输出 `OUTPUT=<路径>`。
-6. **多幕合并**：
+5. **Render video hoạt hình vẽ tay:**
    ```bash
-   <ENV_PY> scripts/merge_scenes.py --inputs 幕1.mp4 幕2.mp4 幕3.mp4 --output final.mp4
+   python scripts/render_stream_whiteboard.py <ảnh.png> <cấu_hình.json> <video_ra.mp4>
    ```
-
-## 质量检查
-
-渲染前/后确认：
-
-- 首帧为干净的暖米黄旧纸张底，没有提前露出线条。
-- 已阅读对应字幕并实际查看原图；`canvas` 与原图像素尺寸一致，所有 `region` 为整数像素坐标且在画布内。
-- `sequence`、`startMs` 与字幕事件顺序一致；预览图编号/标签/区域来自同一份标注 JSON。
-- 在开场、任意重叠模块中段、所有模块完成后三个时间点检查：未绘制模块均不可见，重叠保护区不漏出，最终帧显示完整原图。
-- 笔尖贴近正在推进的笔迹；线稿清晰的插画可用 `--ink-path skeleton` 让笔迹更贴合。
-- 所有模块结束后停留至少 0.5 秒完整原图。
-- 多幕合并后顺序、时长与字幕分镜一致。
-
-如需修改效果，先在预览台（`assets/preview.html`）调整标注（区域/顺序/时序）并保存，再命令行渲染，不要凭空反复出片。
+6. **Ghép nối nhiều phân cảnh:**
+   ```bash
+   python scripts/merge_scenes.py --inputs scene1.mp4 scene2.mp4 --output full_video.mp4
+   ```

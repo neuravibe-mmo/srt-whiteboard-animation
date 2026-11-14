@@ -55,7 +55,7 @@ Tài liệu hướng dẫn chi tiết quy trình từng bước để chuyển �
   > • Tổng thời lượng (`sceneDurationMs`).
   > • Liệt kê 3–4 cụm hình ảnh cụ thể tương ứng với từng mốc thời gian của câu nói."*
 
-##### 1.4. Trạm Kiểm Duyệt Phân Cảnh (Confirmation Checkpoint)
+##### 1.4. Trạm Kiểm Duyệt Phân Cảnh (dạng text) (Confirmation Checkpoint)
 * **Quy tắc bắt buộc:** AI (hoặc bạn) trình bày bản tóm tắt phân cảnh và **dừng lại chờ xác nhận**.
 * **Mẫu Prompt duyệt:**
   > *"Dưới đây là kế hoạch phân cảnh và danh sách các hình sẽ vẽ cho Cảnh 1: `[TÓM_TẮT]`. Bạn duyệt bố cục này chưa? Vui lòng **XÁC NHẬN** để bắt đầu sang Bước 2 (sinh file ảnh vẽ nét)."*
