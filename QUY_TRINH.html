@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quy Trình Tạo Video Hoạt Hình Vẽ Tay (Whiteboard Animation)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+    .step-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+    .step-card:hover {
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+    .flow-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s ease;
+    }
+    .flow-card:hover {
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+      border-color: #cbd5e1;
+    }
+    #sub-steps-container {
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.25s ease;
+      max-height: 2000px;
+      opacity: 1;
+    }
+    #sub-steps-container.collapsed {
+      max-height: 0 !important;
+      opacity: 0;
+    }
+    .toggle-all-icon {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased p-4 md:p-8">
+  <div class="max-w-7xl mx-auto space-y-8">
+    
+    <!-- Hero Header -->
+    <header class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="text-3xl">✏️</span>
+        <span class="text-xs font-bold tracking-wider px-3 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 uppercase">
+          Tài Liệu Hướng Dẫn Kỹ Thuật
+        </span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight mb-2">
+        Quy Trình Tạo Video Hoạt Hình Vẽ Tay
+      </h1>
+      <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+        Chuyển đổi kịch bản / phụ đề SRT thành video hoạt hình vẽ tay bảng trắng hoàn chỉnh với hiệu ứng nét bút dòng chảy liên tục (<code class="text-xs bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono">stream ink→color</code>) khớp theo mạch kể chuyện.
+      </p>
+    </header>
+
+    <!-- Section 1: Sơ đồ tổng thể -->
+    <section class="bg-white border border-slate-200 rounded-2xl shadow-sm">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">📊</span>
+          <h2 class="text-lg font-bold text-slate-900">1. Sơ Đồ Quy Trình Tổng Thể</h2>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Pipeline Chuẩn (6 Giai đoạn)
+          </span>
+        </div>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <!-- 6 Steps Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Step 1 -->
+          <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200 font-mono">
+                  BƯỚC 01
+                </span>
+                <span class="text-lg">📄</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-1.5">Chuẩn bị SRT &amp; Phân cảnh</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Chia SRT thành các phân cảnh khoảng 25–35s. Mỗi phân cảnh truyền tải một thông điệp cốt lõi.
+              </p>
+            </div>
+            <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Công cụ:</span>
+              <code class="px-2 py-0.5 rounded bg-slate-100 text-blue-600 font-mono text-[10px] font-semibold">parse_srt.py</code>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200 font-mono">
+                  BƯỚC 02
+                </span>
+                <span class="text-lg">🎨</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-1.5">Tạo Tranh Nét (Line Art)</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Vẽ minh họa 16:9, nền be ấm <span class="font-mono font-semibold text-amber-700">#F5EBD7</span>, nét doodle tối giản, tuyệt đối không có chữ.
+              </p>
+            </div>
+            <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Đầu ra:</span>
+              <code class="px-2 py-0.5 rounded bg-slate-100 text-amber-600 font-mono text-[10px] font-semibold">scene-xx.png</code>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-200 font-mono">
+                  BƯỚC 03
+                </span>
+                <span class="text-lg">📐</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-1.5">Phân Vùng Kể Chuyện</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Đánh dấu bounding box: Bối cảnh &rarr; Nhân vật &rarr; Hành động, gắn mốc thời gian phụ đề.
+              </p>
+            </div>
+            <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Cấu hình:</span>
+              <code class="px-2 py-0.5 rounded bg-slate-100 text-emerald-600 font-mono text-[10px] font-semibold">.annotation.json</code>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-purple-500"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-purple-50 text-purple-600 border border-purple-200 font-mono">
+                  BƯỚC 04
+                </span>
+                <span class="text-lg">🎛️</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-1.5">Xem Trước &amp; Tinh Chỉnh</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Mở bàn Preview trên web browser, kéo thả khung và căn chỉnh timeline chuẩn xác từng mili-giây.
+              </p>
+            </div>
+            <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Giao diện:</span>
+              <code class="px-2 py-0.5 rounded bg-slate-100 text-purple-600 font-mono text-[10px] font-semibold">preview.html</code>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-rose-500"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-rose-50 text-rose-600 border border-rose-200 font-mono">
+                  BƯỚC 05
+                </span>
+                <span class="text-lg">🎬</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-1.5">Render Bút Vẽ Hoạt Hình</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Bàn tay thực lướt vẽ nét mực (ink) rồi phủ màu (color) tỉ lệ 2:1, xuất video 60fps mượt mà.
+              </p>
+            </div>
+            <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Công cụ:</span>
+              <code class="px-2 py-0.5 rounded bg-slate-100 text-rose-600 font-mono text-[10px] font-semibold">render_stream.py</code>
+            </div>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 bg-cyan-500"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-cyan-50 text-cyan-600 border border-cyan-200 font-mono">
+                  BƯỚC 06
+                </span>
+                <span class="text-lg">🎧</span>
+              </div>
+              <h3 class="text-sm font-bold text-slate-800 mb-1.5">Lồng Tiếng &amp; Hoàn Thiện</h3>
+              <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                Ghép giọng đọc AI / thật chuẩn theo SRT, thêm tiếng ma sát ngòi bút và ghép nối video đa cảnh.
+              </p>
+            </div>
+            <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Xuất bản:</span>
+              <code class="px-2 py-0.5 rounded bg-slate-100 text-cyan-600 font-mono text-[10px] font-semibold">FFmpeg / merge</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Note -->
+        <div class="pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-slate-700">Nguyên lý vận hành:</span>
+            <span>Khớp mạch phụ đề (SRT-driven) + Nét vẽ dòng chảy liên tục (Stream handwriting)</span>
+          </div>
+          <span class="font-mono text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded">v1.0 Production</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Chi tiết 6 bước -->
+    <section class="space-y-6">
+      <div class="flex items-center gap-2.5 px-2">
+        <span class="text-xl">📌</span>
+        <h2 class="text-xl font-bold text-slate-900">2. Chi Tiết 6 Bước Thực Hiện</h2>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="step-card p-6 md:p-7 border-l-4 border-l-blue-500">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 font-mono">
+            BƯỚC 01
+          </span>
+          <span class="text-xs font-semibold text-slate-500">Tiền kỳ kịch bản</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Từ Ý Tưởng Đến Kịch Bản, File SRT & Phân Cảnh</h3>
+        <p class="text-sm text-slate-600 mb-4">
+          Phát triển từ một ý tưởng đề tài ban đầu thành kịch bản hoàn chỉnh, xuất file phụ đề SRT có mốc thời gian chuẩn xác và chốt thiết kế bố cục hình vẽ cho từng cảnh.
+        </p>
+
+        <!-- Tiêu chuẩn phân cảnh -->
+        <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4 mb-5 text-xs text-slate-700 space-y-1">
+          <div class="font-bold text-blue-900 mb-1">🎯 Tiêu chuẩn phân cảnh (Scene):</div>
+          <div>• Thời lượng mỗi cảnh: lý tưởng từ <strong>25 – 35 giây</strong> (tương đương 60 – 80 từ ngữ nói vừa phải).</div>
+          <div>• Mỗi cảnh chỉ truyền tải <strong>một thông điệp cốt lõi</strong> và chứa từ <strong>3 đến 4 cụm hình ảnh</strong> trọng tâm.</div>
+        </div>
+
+        <!-- Visual Roadmap (4 Khâu) -->
+        <div class="mb-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🗺️</span>
+              <div>
+                <h4 class="text-xs font-bold text-slate-800">Lộ Trình 4 Khâu: Từ Ý Tưởng Đến File SRT &amp; Phân Cảnh</h4>
+                <p class="text-[11px] text-slate-500">Chu trình 4 khâu từ ý tưởng sơ khai đến khi chốt bản thiết kế hình vẽ</p>
+              </div>
+            </div>
+            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 font-mono">
+              PRE-PRODUCTION
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <!-- 1.1 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-sky-500">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200 font-mono">KHÂU 1.1</span>
+                <span class="text-base">💡</span>
+              </div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Xây Dựng Ý Tưởng &amp; Lời Thoại</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                Lên chủ đề, thông điệp cốt lõi và viết kịch bản thoại (chưa cần mốc thời gian). Khoảng 60–80 từ cho 1 cảnh 25–30s.
+              </p>
+              <div class="text-[10px] bg-sky-50/60 text-sky-800 p-2 rounded border border-sky-100 font-mono">
+                &ldquo;Viết kịch bản ngắn 25–30s về chủ đề [X], gồm 3–4 câu cô đọng...&rdquo;
+              </div>
+            </div>
+
+            <!-- 1.2 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-indigo-500">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200 font-mono">KHÂU 1.2</span>
+                <span class="text-base">🎙️</span>
+              </div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Thu Âm &amp; Xuất File Phụ Đề (.srt)</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                Thu âm giọng đọc &rarr; xuất phụ đề tự động từ CapCut/Whisper để có mốc thời gian <code class="text-indigo-600 font-semibold font-mono">startMs &rarr; endMs</code> chuẩn 100%.
+              </p>
+              <div class="text-[10px] bg-indigo-50/60 text-indigo-800 p-2 rounded border border-indigo-100 font-mono">
+                Đầu ra: <code>two_minute_rule.srt</code> chuẩn thời gian câu nói
+              </div>
+            </div>
+
+            <!-- 1.3 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-amber-500 ring-2 ring-amber-500/10">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">KHÂU 1.3 (TRỌNG TÂM)</span>
+                <span class="text-base">🎨</span>
+              </div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Chuyển Thể Sang Bố Cục Hình Ảnh</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                Đọc từng câu SRT để quyết định vẽ cái gì: Bối cảnh &rarr; Nhân vật &rarr; Hành động &rarr; Kết quả (chỉ mô tả chữ, chưa vẽ ảnh).
+              </p>
+              <div class="text-[10px] bg-amber-50/60 text-amber-900 p-2 rounded border border-amber-200 font-mono">
+                &ldquo;Từ file SRT sau, hãy lập danh sách 3–4 cụm hình cần vẽ theo mạch...&rdquo;
+              </div>
+            </div>
+
+            <!-- 1.4 -->
+            <div class="flow-card p-3.5 border-l-4 border-l-emerald-500">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">KHÂU 1.4 (BẮT BUỘC)</span>
+                <span class="text-base">✅</span>
+              </div>
+              <h5 class="text-xs font-bold text-slate-800 mb-1">Trạm Kiểm Duyệt Phân Cảnh (dạng text)</h5>
+              <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+                Người dùng duyệt bản mô tả bố cục hình vẽ. Khi xác nhận hài lòng mới chuyển sang Bước 2 (sinh file ảnh vẽ nét).
+              </p>
+              <div class="text-[10px] bg-emerald-50/60 text-emerald-900 p-2 rounded border border-emerald-200 font-mono">
+                &ldquo;Bạn có duyệt kế hoạch phân cảnh này không? Xác nhận để tiến hành vẽ tranh.&rdquo;
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Sub-steps breakdown -->
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-slate-500">Chi tiết 4 khâu</span>
+          <button onclick="toggleAllSubSteps(this)" class="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-full transition-all" title="Đóng/mở tất cả">
+            <span class="toggle-all-icon">&#9660;</span>
+            <span class="toggle-all-label">Thu gọn</span>
+          </button>
+        </div>
+        <div id="sub-steps-container" class="collapsed">
+          <div class="space-y-3.5 text-xs">
+
+            <!-- 1.1 -->
+            <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 mb-1">1.1. Xây dựng Ý tưởng &amp; Viết Kịch bản Lời thoại (Ideation &amp; Scriptwriting)</h4>
+              <p class="text-slate-600 mb-2">Chưa cần quan tâm đến giây hay mốc thời gian. Tập trung sáng tạo nội dung cô đọng: <em>Hook mở đầu → Giải pháp cốt lõi → Kết luận bứt phá</em>.</p>
+              <div class="bg-white p-2.5 rounded border border-slate-200 text-slate-700 font-mono text-[11px]">
+                &ldquo;Hãy lên ý tưởng và viết kịch bản lời thoại ngắn gọn (khoảng 60–80 từ, thời lượng đọc tầm 25–30 giây) về chủ đề [TÊN_CHỦ_ĐỀ]. Yêu cầu câu từ cô đọng, giàu tính hình ảnh để thuận tiện cho việc vẽ doodle minh họa.&rdquo;
+              </div>
+            </div>
+
+            <!-- 1.2 -->
+            <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 mb-1">1.2. Thu Âm &amp; Xuất File Phụ Đề Chuẩn (.srt) (Recording &amp; Timestamps)</h4>
+              <p class="text-slate-600 mb-2"><strong>Cách chuẩn:</strong> Thu âm kịch bản thoại → đưa vào CapCut / Premiere / Whisper để tự động xuất file <code class="text-blue-600 font-semibold">.srt</code> chuẩn 100% theo nhịp nói thực tế. (Nếu làm nhanh có thể cho AI chia mốc thời gian ước lượng).</p>
+              <div class="code-block text-[11px] py-2">python scripts/parse_srt.py path/to/subtitle.srt --target-sec 30</div>
+            </div>
+
+            <!-- 1.3 -->
+            <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+              <h4 class="font-bold text-slate-800 mb-1">1.3. Chuyển Thể Sang Bố Cục Hình Ảnh (Visual Storyboard Strategy)</h4>
+              <p class="text-slate-600">Đóng vai trò "Đạo diễn phân cảnh", chuyển ngữ nghĩa từng câu thoại trong SRT thành mô tả hình vẽ tương ứng <em>(Lưu ý: Chỉ mô tả bằng chữ, tuyệt đối chưa sinh file ảnh)</em>. Sắp xếp từ trái qua phải: <strong>Bối cảnh → Nhân vật → Hành động → Kết quả</strong>.</p>
+            </div>
+
+            <!-- 1.4 -->
+            <div class="p-3.5 rounded-lg bg-emerald-50/60 border border-emerald-200">
+              <h4 class="font-bold text-emerald-900 mb-1">1.4. Trạm Kiểm Duyệt Phân Cảnh (dạng text) (Confirmation Checkpoint)</h4>
+              <p class="text-emerald-800">
+                Quy tắc bắt buộc: AI (hoặc bạn) trình bày bản tóm tắt phân cảnh dạng văn bản trong khung chat và <strong>dừng lại chờ xác nhận duyệt</strong> trước khi chuyển sang Bước 2 sinh ảnh.
+              </p>
+            </div>
+
+          </div>
+        </div><!-- end sub-steps-container -->
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-card p-6 md:p-7 border-l-4 border-l-amber-500">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-amber-50 text-amber-700 border border-amber-200 font-mono">
+            BƯỚC 02
+          </span>
+          <span class="text-xs font-semibold text-slate-500">Sản xuất hình ảnh</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Tạo Tranh Vẽ Nét (Line Art)</h3>
+        <p class="text-sm text-slate-600 mb-4">
+          Tạo hình ảnh minh họa bao quát toàn bộ nội dung của phân cảnh theo quy chuẩn thị giác nghiêm ngặt.
+        </p>
+        <div class="bg-amber-50/50 border border-amber-100 rounded-xl p-4 text-xs text-slate-700 space-y-1 mb-3">
+          <div class="font-bold text-amber-900 mb-1">🎨 Quy chuẩn thị giác bắt buộc:</div>
+          <div>• <strong>Tỉ lệ khung hình:</strong> 16:9 (kích thước đề xuất: <code class="font-mono">1376x768</code> hoặc <code class="font-mono">1920x1080</code>).</div>
+          <div>• <strong>Màu nền giấy:</strong> Vàng be ấm (mã <code class="font-mono font-bold text-amber-800">#F5EBD7</code>). Tuyệt đối không dùng nền trắng tinh.</div>
+          <div>• <strong>Phong cách vẽ:</strong> Nét phác thảo chì xám đậm tối giản (Notion doodle), nhiều khoảng trống (negative space).</div>
+          <div>• <strong>Màu sắc điểm xuyết:</strong> Chỉ dùng một lượng nhỏ màu cam hoặc xanh dương nhẹ.</div>
+          <div>• <strong>Điều cấm kỵ:</strong> Tuyệt đối <u>không vẽ sẵn chữ số hay nhãn chữ</u> vào tranh; không 3D đổ bóng hay ảnh thực.</div>
+        </div>
+        <div class="text-xs text-slate-500">Đầu ra: File ảnh nét vẽ <code class="text-amber-700 font-mono bg-amber-50 px-1.5 py-0.5 rounded">scene-xx.png</code>.</div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-card p-6 md:p-7 border-l-4 border-l-emerald-500">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 font-mono">
+            BƯỚC 03
+          </span>
+          <span class="text-xs font-semibold text-slate-500">Cấu hình phân vùng</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Phân Vùng Vẽ & Gán Thứ Tự Kể Chuyện (.annotation.json)</h3>
+        <p class="text-sm text-slate-600 mb-3">
+          Cắt bức tranh thành các phân vùng chữ nhật tương ứng với mốc xuất hiện của câu thoại phụ đề.
+        </p>
+        <div class="code-block text-[11px] mb-3">
+{
+  "sceneId": "scene-01",
+  "canvas": { "width": 1376, "height": 768 },
+  "sceneDurationMs": 26000,
+  "elements": [
+    {
+      "id": "element-1",
+      "label": "Tên đối tượng",
+      "sequence": 1,
+      "subtitle": "Nội dung câu phụ đề khớp với vùng này",
+      "region": { "x": 40, "y": 220, "width": 380, "height": 350 },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 500,
+        "durationMs": 4700,
+        "maskPaddingPx": 20,
+        "protectedRegions": []
+      },
+      "handPath": { "start": [230, 240], "end": [230, 550], "easing": "easeInOut" }
+    }
+  ]
+}</div>
+        <div class="text-xs text-slate-600">Kiểm tra vùng vẽ bằng hình ảnh:</div>
+        <div class="code-block text-[11px] mt-1.5">python scripts/render_annotation_preview.py scene-xx.png scene-xx.annotation.json scene-xx-preview.png</div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-card p-6 md:p-7 border-l-4 border-l-purple-500">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-purple-50 text-purple-700 border border-purple-200 font-mono">
+            BƯỚC 04
+          </span>
+          <span class="text-xs font-semibold text-slate-500">Xem trước trực quan</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Xem Trước & Tinh Chỉnh Trên Bàn Preview Web</h3>
+        <p class="text-sm text-slate-600 mb-3">
+          Kéo thả trực quan tọa độ hộp bao quanh hình và thời gian hiển thị (ms) trước khi render video thật.
+        </p>
+        <div class="code-block text-[11px] mb-3">open assets/preview.html</div>
+        <div class="text-xs text-slate-600 space-y-1">
+          <div>1. Mở thư mục chứa ảnh + file <code class="font-mono text-purple-700">.annotation.json</code>.</div>
+          <div>2. Kéo thả các cạnh hộp chữ nhật để bao trọn nét vẽ của đối tượng.</div>
+          <div>3. Chỉnh thời gian bắt đầu/kết thúc (ms) khớp chuẩn với giọng nói.</div>
+          <div>4. Nhấn <strong>Play</strong> xem mô phỏng thứ tự các nét xuất hiện và nhấn <strong>Save</strong> để lưu cấu hình.</div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step-card p-6 md:p-7 border-l-4 border-l-rose-500">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-rose-50 text-rose-700 border border-rose-200 font-mono">
+            BƯỚC 05
+          </span>
+          <span class="text-xs font-semibold text-slate-500">Xuất video hoạt hình</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Render Video Hoạt Hình Bút Vẽ Tay (Whiteboard Rendering)</h3>
+        <p class="text-sm text-slate-600 mb-3">
+          Xuất ra file video MP4 chất lượng cao với hiệu ứng bàn tay cầm bút thực lướt vẽ liên tục: nét phác thảo (<code class="font-mono text-rose-700">ink</code>) đi trước rồi phủ màu nhẹ (<code class="font-mono text-rose-700">color</code>) đi sau theo tỉ lệ 2:1.
+        </p>
+        <div class="code-block text-[11px] mb-2">python scripts/render_stream_whiteboard.py scene-xx.png scene-xx.annotation.json scene-xx.mp4</div>
+        <div class="text-xs text-slate-500">Đầu ra: Video hoạt hình <code class="text-rose-700 font-mono bg-rose-50 px-1.5 py-0.5 rounded">scene-xx.mp4</code> (1080p, 60fps mượt mà).</div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="step-card p-6 md:p-7 border-l-4 border-l-cyan-500">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-cyan-50 text-cyan-700 border border-cyan-200 font-mono">
+            BƯỚC 06
+          </span>
+          <span class="text-xs font-semibold text-slate-500">Hoàn thiện âm thanh</span>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">Lồng Tiếng, Âm Thanh & Ghép Cảnh</h3>
+        <p class="text-sm text-slate-600 mb-3">
+          Ghép thuyết minh (giọng thật hoặc AI TTS) khớp phụ đề, thêm tiếng cọ bút và gộp nhiều cảnh thành video lớn.
+        </p>
+        <div class="text-xs font-semibold text-slate-700 mb-1">Ghép âm thanh qua FFmpeg:</div>
+        <div class="code-block text-[11px] mb-3">ffmpeg -y -i scene-xx.mp4 -i voiceover.wav -c:v copy -c:a aac -shortest scene-xx-final.mp4</div>
+        <div class="text-xs font-semibold text-slate-700 mb-1">Ghép nhiều cảnh thành một video dài:</div>
+        <div class="code-block text-[11px]">python scripts/merge_scenes.py --inputs scene1.mp4 scene2.mp4 --output full_video.mp4</div>
+      </div>
+    </section>
+
+    <!-- Section 3: Danh mục công cụ -->
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm space-y-4">
+      <div class="flex items-center gap-2.5 border-b border-slate-100 pb-4">
+        <span class="text-xl">🛠️</span>
+        <h2 class="text-lg font-bold text-slate-900">3. Danh Mục Công Cụ & Thư Mục Dự Án</h2>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-slate-200 bg-slate-50 text-slate-600">
+              <th class="py-2.5 px-3 font-bold">Tệp / Thư mục</th>
+              <th class="py-2.5 px-3 font-bold">Chức năng chính</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-blue-600">scripts/prepare_env.py</td>
+              <td class="py-2.5 px-3">Tự động tạo môi trường ảo Python <code class="font-mono bg-slate-100 px-1 py-0.5 rounded">.venv</code> và cài thư viện đồ họa</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-blue-600">scripts/parse_srt.py</td>
+              <td class="py-2.5 px-3">Phân tích phụ đề SRT và gợi ý phân cảnh</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-purple-600">assets/preview.html</td>
+              <td class="py-2.5 px-3">Bàn làm việc web trực quan để chỉnh sửa vùng và timeline</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-emerald-600">scripts/render_annotation_preview.py</td>
+              <td class="py-2.5 px-3">Xuất ảnh sơ đồ các hộp chữ nhật phân vùng</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-rose-600">scripts/render_stream_whiteboard.py</td>
+              <td class="py-2.5 px-3">Render video hoạt hình nét vẽ tay bảng trắng</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-cyan-600">scripts/merge_scenes.py</td>
+              <td class="py-2.5 px-3">Ghép nhiều phân cảnh video thành một video duy nhất</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 px-3 font-mono font-semibold text-slate-600">assets/drawing-hand.png</td>
+              <td class="py-2.5 px-3">Hình ảnh bàn tay cầm bút dùng trong diễn hoạt</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-slate-400 pb-6">
+      SRT Whiteboard Animation • Tài liệu kỹ thuật hoàn thiện
+    </footer>
+
+  </div>
+
+<script>
+  function toggleAllSubSteps(btn) {
+    const container = document.getElementById('sub-steps-container');
+    const isHidden = container.classList.contains('collapsed');
+    const icon = btn.querySelector('.toggle-all-icon');
+    const label = btn.querySelector('.toggle-all-label');
+    if (isHidden) {
+      container.classList.remove('collapsed');
+      icon.style.transform = '';
+      label.textContent = 'Thu gọn';
+    } else {
+      container.classList.add('collapsed');
+      icon.style.transform = 'rotate(-90deg)';
+      label.textContent = 'Mở rộng';
+    }
+  }
+</script>
+</body>
+</html>
