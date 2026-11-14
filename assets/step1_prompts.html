@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #ffffff;
+    }
+    .flow-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+  </style>
+</head>
+<body class="w-[940px] bg-white">
+  <div class="border border-slate-200 rounded-2xl p-5 bg-slate-50/60 shadow-sm space-y-4">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-3 border-b border-slate-200">
+      <div class="flex items-center gap-2.5">
+        <span class="text-xl">🗺️</span>
+        <div>
+          <h3 class="text-sm font-bold text-slate-800">Lộ Trình Chi Tiết Bước 1: Từ Ý Tưởng Đến File SRT & Phân Cảnh</h3>
+          <p class="text-[11px] text-slate-500">Chu trình 4 khâu từ ý tưởng sơ khai đến khi chốt bản thiết kế hình vẽ</p>
+        </div>
+      </div>
+      <span class="text-[10px] font-bold px-2.5 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200 font-mono">
+        PRE-PRODUCTION
+      </span>
+    </div>
+
+    <!-- 4 Sub-steps Flow -->
+    <div class="grid grid-cols-2 gap-3.5">
+      <!-- 1.1 -->
+      <div class="flow-box p-3.5 border-l-4 border-l-sky-500">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-sky-50 text-sky-700 border border-sky-200">KHÂU 1.1</span>
+          <span class="text-base">💡</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 mb-1">Xây Dựng Ý Tưởng & Lời Thoại</h4>
+        <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+          Lên chủ đề, thông điệp cốt lõi và viết kịch bản thoại (chưa cần mốc thời gian). Khoảng 60–80 từ cho 1 cảnh 25–30s.
+        </p>
+        <div class="text-[10px] bg-sky-50/60 text-sky-800 p-2 rounded border border-sky-100 font-mono">
+          &ldquo;Viết kịch bản ngắn 25–30s về chủ đề [X], gồm 3–4 câu cô đọng...&rdquo;
+        </div>
+      </div>
+
+      <!-- 1.2 -->
+      <div class="flow-box p-3.5 border-l-4 border-l-indigo-500">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">KHÂU 1.2</span>
+          <span class="text-base">🎙️</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 mb-1">Thu Âm & Xuất File Phụ Đề (.srt)</h4>
+        <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+          Thu âm giọng đọc &rarr; xuất phụ đề tự động từ CapCut/Whisper để có mốc thời gian <code>startMs &rarr; endMs</code> chuẩn 100%.
+        </p>
+        <div class="text-[10px] bg-indigo-50/60 text-indigo-800 p-2 rounded border border-indigo-100 font-mono">
+          Đầu ra: <code>two_minute_rule.srt</code> chuẩn thời gian câu nói
+        </div>
+      </div>
+
+      <!-- 1.3 -->
+      <div class="flow-box p-3.5 border-l-4 border-l-amber-500 ring-2 ring-amber-500/10">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">KHÂU 1.3 (TRỌNG TÂM)</span>
+          <span class="text-base">🎨</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 mb-1">Chuyển Thể Sang Bố Cục Hình Ảnh</h4>
+        <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+          Đọc từng câu SRT để quyết định vẽ cái gì: Bối cảnh &rarr; Nhân vật &rarr; Hành động &rarr; Kết quả (chỉ mô tả chữ, chưa vẽ ảnh).
+        </p>
+        <div class="text-[10px] bg-amber-50/60 text-amber-900 p-2 rounded border border-amber-200 font-mono">
+          &ldquo;Từ file SRT sau, hãy lập danh sách 3–4 cụm hình cần vẽ theo mạch...&rdquo;
+        </div>
+      </div>
+
+      <!-- 1.4 -->
+      <div class="flow-box p-3.5 border-l-4 border-l-emerald-500">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">KHÂU 1.4 (BẮT BUỘC)</span>
+          <span class="text-base">✅</span>
+        </div>
+        <h4 class="text-xs font-bold text-slate-800 mb-1">Trạm Kiểm Duyệt Phân Cảnh</h4>
+        <p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">
+          Người dùng duyệt bản mô tả bố cục hình vẽ. Khi xác nhận hài lòng mới chuyển sang Bước 2 (sinh file ảnh vẽ nét).
+        </p>
+        <div class="text-[10px] bg-emerald-50/60 text-emerald-900 p-2 rounded border border-emerald-200 font-mono">
+          &ldquo;Bạn có duyệt kế hoạch phân cảnh này không? Xác nhận để tiến hành vẽ tranh.&rdquo;
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

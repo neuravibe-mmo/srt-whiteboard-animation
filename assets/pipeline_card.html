@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: #ffffff;
+    }
+    .flow-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+    }
+  </style>
+</head>
+<body class="w-[960px] bg-white">
+  <div class="border border-slate-200 rounded-2xl p-6 bg-slate-50/50 shadow-sm">
+    <!-- Header -->
+    <div class="flex items-center justify-between pb-5 mb-5 border-b border-slate-200">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xl border border-amber-200">
+          ✏️
+        </div>
+        <div>
+          <h2 class="text-lg font-bold text-slate-900 tracking-tight">Quy Trình Tạo Video Hoạt Hình Vẽ Tay</h2>
+          <p class="text-xs text-slate-500 font-medium">Pipeline 6 giai đoạn khép kín từ phụ đề SRT đến video MP4 nét vẽ tay mượt mà</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+          Pipeline Chuẩn
+        </span>
+      </div>
+    </div>
+
+    <!-- 6 Steps Grid -->
+    <div class="grid grid-cols-3 gap-4">
+      
+      <!-- Step 1 -->
+      <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-blue-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-blue-50 text-blue-600 border border-blue-200">
+              BƯỚC 01
+            </span>
+            <span class="text-lg">📄</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1.5">Chuẩn bị SRT & Phân cảnh</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Chia SRT thành các phân cảnh khoảng 25–35s. Mỗi phân cảnh truyền tải một thông điệp cốt lõi.
+          </p>
+        </div>
+        <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Công cụ:</span>
+          <code class="px-2 py-0.5 rounded bg-slate-100 text-blue-600 font-mono text-[10px] font-semibold">parse_srt.py</code>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-amber-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-amber-50 text-amber-600 border border-amber-200">
+              BƯỚC 02
+            </span>
+            <span class="text-lg">🎨</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1.5">Tạo Tranh Nét (Line Art)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Vẽ minh họa 16:9, nền be ấm <span class="font-mono font-semibold text-amber-700">#F5EBD7</span>, nét doodle tối giản, tuyệt đối không có chữ.
+          </p>
+        </div>
+        <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Đầu ra:</span>
+          <code class="px-2 py-0.5 rounded bg-slate-100 text-amber-600 font-mono text-[10px] font-semibold">scene-xx.png</code>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 border border-emerald-200">
+              BƯỚC 03
+            </span>
+            <span class="text-lg">📐</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1.5">Phân Vùng Kể Chuyện</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Đánh dấu bounding box: Bối cảnh &rarr; Nhân vật &rarr; Hành động, gắn mốc thời gian phụ đề.
+          </p>
+        </div>
+        <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Cấu hình:</span>
+          <code class="px-2 py-0.5 rounded bg-slate-100 text-emerald-600 font-mono text-[10px] font-semibold">.annotation.json</code>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-purple-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-purple-50 text-purple-600 border border-purple-200">
+              BƯỚC 04
+            </span>
+            <span class="text-lg">🎛️</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1.5">Xem Trước & Tinh Chỉnh</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Mở bàn Preview trên web browser, kéo thả khung và căn chỉnh timeline chuẩn xác từng mili-giây.
+          </p>
+        </div>
+        <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Giao diện:</span>
+          <code class="px-2 py-0.5 rounded bg-slate-100 text-purple-600 font-mono text-[10px] font-semibold">preview.html</code>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-rose-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-rose-50 text-rose-600 border border-rose-200">
+              BƯỚC 05
+            </span>
+            <span class="text-lg">🎬</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1.5">Render Bút Vẽ Hoạt Hình</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Bàn tay thực lướt vẽ nét mực (ink) rồi phủ màu (color) tỉ lệ 2:1, xuất video 60fps mượt mà.
+          </p>
+        </div>
+        <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Công cụ:</span>
+          <code class="px-2 py-0.5 rounded bg-slate-100 text-rose-600 font-mono text-[10px] font-semibold">render_stream.py</code>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="flow-card p-4 flex flex-col justify-between relative overflow-hidden">
+        <div class="absolute top-0 left-0 right-0 h-1 bg-cyan-500"></div>
+        <div>
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-[10px] font-extrabold tracking-wider px-2 py-0.5 rounded bg-cyan-50 text-cyan-600 border border-cyan-200">
+              BƯỚC 06
+            </span>
+            <span class="text-lg">🎧</span>
+          </div>
+          <h3 class="text-sm font-bold text-slate-800 mb-1.5">Lồng Tiếng & Hoàn Thiện</h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            Ghép giọng đọc AI / thật chuẩn theo SRT, thêm tiếng ma sát ngòi bút và ghép nối video đa cảnh.
+          </p>
+        </div>
+        <div class="pt-2.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
+          <span>Xuất bản:</span>
+          <code class="px-2 py-0.5 rounded bg-slate-100 text-cyan-600 font-mono text-[10px] font-semibold">FFmpeg / merge</code>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Note -->
+    <div class="mt-4 pt-3.5 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-slate-700">Nguyên lý vận hành:</span>
+        <span>Khớp mạch phụ đề (SRT-driven) + Nét vẽ dòng chảy liên tục (Stream handwriting)</span>
+      </div>
+      <span class="font-mono text-[11px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded">v1.0 Production</span>
+    </div>
+  </div>
+</body>
+</html>
