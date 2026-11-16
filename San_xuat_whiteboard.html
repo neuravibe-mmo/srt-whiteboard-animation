@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quy Trình Sản Xuất Video Whiteboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .step-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 1.25rem;
+      transition: box-shadow 0.2s;
+    }
+    .step-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+    .tool-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .connector {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      padding: 4px 0;
+    }
+    .connector-line { width: 2px; height: 20px; background: #cbd5e1; border-radius: 1px; }
+    .connector-arrow { color: #94a3b8; font-size: 14px; line-height: 1; }
+  </style>
+</head>
+<body class="min-h-screen py-10 px-4">
+
+  <div class="max-w-3xl mx-auto space-y-2">
+
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-1.5 text-xs font-semibold text-slate-500 mb-4">
+        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l-4 4l6 6l4-16l-18 7l4 2l2 6l3-4"/></svg>
+        Quy trình sản xuất
+      </div>
+      <h1 class="text-2xl font-extrabold text-slate-900 mb-2">Tạo Video Whiteboard Tiếng Việt</h1>
+      <p class="text-sm text-slate-500 max-w-lg mx-auto">Từ video gốc tiếng Anh trên YouTube → Video hoạt hình vẽ tay có lồng tiếng Việt hoàn chỉnh</p>
+    </div>
+
+    <!-- Flow tổng quan -->
+    <div class="step-card p-5 mb-2">
+      <div class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Tổng quan luồng sản xuất</div>
+      <div class="flex flex-wrap items-center gap-2 justify-center">
+        <!-- Node 1 -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl px-3 py-2 text-center">
+          <div class="text-[10px] font-bold text-blue-500 uppercase mb-0.5">Bước 1</div>
+          <div class="text-xs font-bold text-blue-900">Video YouTube</div>
+          <div class="text-[10px] text-blue-600">tiếng Anh</div>
+        </div>
+        <svg class="w-5 h-5 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Node 2 -->
+        <div class="bg-violet-50 border border-violet-200 rounded-xl px-3 py-2 text-center">
+          <div class="text-[10px] font-bold text-violet-500 uppercase mb-0.5">Bước 2</div>
+          <div class="text-xs font-bold text-violet-900">File .srt</div>
+          <div class="text-[10px] text-violet-600">tiếng Việt</div>
+        </div>
+        <svg class="w-5 h-5 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Node 3 -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 text-center">
+          <div class="text-[10px] font-bold text-amber-500 uppercase mb-0.5">Bước 3</div>
+          <div class="text-xs font-bold text-amber-900">File âm thanh</div>
+          <div class="text-[10px] text-amber-600">giọng Việt</div>
+        </div>
+        <svg class="w-5 h-5 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Node 4 -->
+        <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2 text-center">
+          <div class="text-[10px] font-bold text-emerald-500 uppercase mb-0.5">Bước 4</div>
+          <div class="text-xs font-bold text-emerald-900">Video hoạt hình</div>
+          <div class="text-[10px] text-emerald-600">chưa tiếng</div>
+        </div>
+        <svg class="w-5 h-5 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <!-- Node 5 -->
+        <div class="bg-rose-50 border border-rose-200 rounded-xl px-3 py-2 text-center">
+          <div class="text-[10px] font-bold text-rose-500 uppercase mb-0.5">Bước 5</div>
+          <div class="text-xs font-bold text-rose-900">Video hoàn chỉnh</div>
+          <div class="text-[10px] text-rose-600">có tiếng Việt</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= BƯỚC 1 ======= -->
+    <div class="connector">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+    <div class="step-card p-6">
+      <div class="flex items-start gap-4">
+        <!-- Số thứ tự -->
+        <div class="shrink-0 w-10 h-10 rounded-2xl bg-blue-500 text-white font-extrabold text-lg flex items-center justify-center">1</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 class="text-base font-bold text-slate-900">Tìm video Whiteboard tiếng Anh trên YouTube</h2>
+          </div>
+          <p class="text-sm text-slate-500 mb-3">Chọn video kiểu whiteboard animation có nội dung phù hợp — đây là nguồn tham khảo cho toàn bộ quy trình.</p>
+
+          <!-- Ví dụ kênh -->
+          <div class="bg-slate-50 border border-slate-200 rounded-xl p-3">
+            <div class="text-xs font-bold text-slate-600 mb-2 uppercase tracking-wide">Ví dụ kênh tham khảo</div>
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.84 1.56V6.78a4.85 4.85 0 0 1-1.07-.09z"/></svg>
+                <span class="text-xs text-slate-600 font-mono">youtube.com/@PracticalPsychologyTips</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-3.5 h-3.5 text-red-500 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.84 1.56V6.78a4.85 4.85 0 0 1-1.07-.09z"/></svg>
+                <span class="text-xs text-slate-600 font-mono">youtube.com/watch?v=-xYFPIqbx0k</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= BƯỚC 2 ======= -->
+    <div class="connector">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+    <div class="step-card p-6">
+      <div class="flex items-start gap-4">
+        <div class="shrink-0 w-10 h-10 rounded-2xl bg-violet-500 text-white font-extrabold text-lg flex items-center justify-center">2</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 class="text-base font-bold text-slate-900">Trích xuất &amp; Dịch phụ đề sang tiếng Việt</h2>
+            <span class="tool-badge bg-violet-100 text-violet-700">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              NeuraVibeStudio
+            </span>
+          </div>
+          <p class="text-sm text-slate-500 mb-3">Dùng công cụ <strong>Phụ đề video</strong> trong NeuraVibeStudio để tự động trích xuất phụ đề từ video gốc và dịch sang tiếng Việt.</p>
+
+          <!-- 2 bước nhỏ -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div class="bg-violet-50 border border-violet-100 rounded-xl p-3">
+              <div class="text-xs font-bold text-violet-700 mb-1">① Trích xuất phụ đề</div>
+              <div class="text-xs text-violet-600">Chọn video YouTube → NeuraVibeStudio tự nhận diện giọng nói và tạo file .srt tiếng Anh.</div>
+            </div>
+            <div class="bg-violet-50 border border-violet-100 rounded-xl p-3">
+              <div class="text-xs font-bold text-violet-700 mb-1">② Dịch sang tiếng Việt</div>
+              <div class="text-xs text-violet-600">Hệ thống dịch tự động toàn bộ nội dung phụ đề — giữ nguyên mốc thời gian từng câu.</div>
+            </div>
+          </div>
+
+          <!-- Đầu ra -->
+          <div class="mt-3 flex items-center gap-2 bg-white border border-violet-200 rounded-xl px-3 py-2">
+            <svg class="w-4 h-4 text-violet-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span class="text-xs text-slate-600">Đầu ra: <code class="font-mono text-violet-700 bg-violet-50 px-1 rounded">phude-tiengviet.srt</code> — phụ đề tiếng Việt kèm mốc thời gian</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= BƯỚC 3 ======= -->
+    <div class="connector">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+    <div class="step-card p-6">
+      <div class="flex items-start gap-4">
+        <div class="shrink-0 w-10 h-10 rounded-2xl bg-amber-500 text-white font-extrabold text-lg flex items-center justify-center">3</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 class="text-base font-bold text-slate-900">Tạo file âm thanh giọng Việt từ phụ đề</h2>
+            <span class="tool-badge bg-amber-100 text-amber-700">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+              VoiceStudio
+            </span>
+          </div>
+          <p class="text-sm text-slate-500 mb-3">Dùng chức năng <strong>Lồng tiếng → Phụ đề</strong> trong VoiceStudio: đọc file .srt tiếng Việt vừa tạo ở Bước 2 và sinh ra file âm thanh AI khớp từng câu.</p>
+
+          <!-- Visual flow -->
+          <div class="flex items-center gap-2 bg-amber-50 border border-amber-100 rounded-xl p-3">
+            <div class="text-center">
+              <div class="text-[10px] font-semibold text-amber-600 mb-1">Nhập vào</div>
+              <code class="text-xs font-mono bg-white border border-amber-200 px-2 py-1 rounded">phude-tiengviet.srt</code>
+            </div>
+            <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="text-center flex-1">
+              <div class="text-[10px] font-semibold text-amber-600 mb-1">AI đọc từng câu</div>
+              <div class="text-xs text-amber-700">Giọng Việt khớp mốc thời gian</div>
+            </div>
+            <svg class="w-5 h-5 text-amber-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="text-center">
+              <div class="text-[10px] font-semibold text-amber-600 mb-1">Đầu ra</div>
+              <code class="text-xs font-mono bg-white border border-amber-200 px-2 py-1 rounded">voiceover.wav</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= BƯỚC 4 ======= -->
+    <div class="connector">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+    <div class="step-card p-6">
+      <div class="flex items-start gap-4">
+        <div class="shrink-0 w-10 h-10 rounded-2xl bg-emerald-500 text-white font-extrabold text-lg flex items-center justify-center">4</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 class="text-base font-bold text-slate-900">Tạo video hoạt hình vẽ tay từ file phụ đề</h2>
+            <span class="tool-badge bg-emerald-100 text-emerald-700">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              srt-whiteboard-animation
+            </span>
+          </div>
+          <p class="text-sm text-slate-500 mb-3">Đưa file <code class="font-mono text-emerald-700 bg-emerald-50 px-1 rounded">.srt</code> tiếng Việt vào skill <strong>srt-whiteboard-animation</strong> — hệ thống tự động tạo video hoạt hình bút vẽ tay theo từng câu phụ đề. <em>Video ở bước này chưa có âm thanh.</em></p>
+
+          <!-- Sub-steps nhỏ gọn -->
+          <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-3 mb-3">
+            <div class="text-xs font-bold text-emerald-700 mb-2 uppercase tracking-wide">Skill này tự động làm</div>
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-white border border-emerald-200 rounded-lg py-2 px-1">
+                <div class="text-[10px] font-bold text-emerald-600">Phân cảnh</div>
+                <div class="text-[9px] text-slate-500 mt-0.5">theo câu SRT</div>
+              </div>
+              <div class="bg-white border border-emerald-200 rounded-lg py-2 px-1">
+                <div class="text-[10px] font-bold text-emerald-600">Vẽ tranh AI</div>
+                <div class="text-[9px] text-slate-500 mt-0.5">từng phân cảnh</div>
+              </div>
+              <div class="bg-white border border-emerald-200 rounded-lg py-2 px-1">
+                <div class="text-[10px] font-bold text-emerald-600">Render video</div>
+                <div class="text-[9px] text-slate-500 mt-0.5">bút vẽ tay</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Đầu ra -->
+          <div class="flex items-center gap-2 bg-white border border-emerald-200 rounded-xl px-3 py-2">
+            <svg class="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+            <span class="text-xs text-slate-600">Đầu ra: <code class="font-mono text-emerald-700 bg-emerald-50 px-1 rounded">full_video.mp4</code> — video hoạt hình vẽ tay, <strong>chưa có tiếng</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======= BƯỚC 5 ======= -->
+    <div class="connector">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+    <div class="step-card p-6">
+      <div class="flex items-start gap-4">
+        <div class="shrink-0 w-10 h-10 rounded-2xl bg-rose-500 text-white font-extrabold text-lg flex items-center justify-center">5</div>
+        <div class="flex-1">
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <h2 class="text-base font-bold text-slate-900">Ghép âm thanh vào video</h2>
+            <span class="tool-badge bg-slate-100 text-slate-600">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M9 10h.01M15 10h.01M9.5 15a3.5 3.5 0 0 0 5 0"/></svg>
+              FFmpeg
+            </span>
+          </div>
+          <p class="text-sm text-slate-500 mb-3">Ghép file âm thanh tiếng Việt (<code class="font-mono text-rose-700 bg-rose-50 px-1 rounded">voiceover.wav</code> từ Bước 3) vào video hoạt hình (<code class="font-mono text-rose-700 bg-rose-50 px-1 rounded">full_video.mp4</code> từ Bước 4) để có sản phẩm hoàn chỉnh.</p>
+
+          <!-- Ghép 2 nguồn -->
+          <div class="flex items-center gap-2 mb-3">
+            <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+              <svg class="w-5 h-5 mx-auto mb-1 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              <div class="text-xs font-bold text-slate-700">full_video.mp4</div>
+              <div class="text-[10px] text-slate-400">Hình ảnh hoạt hình</div>
+            </div>
+            <div class="text-slate-400 font-bold text-xl shrink-0">+</div>
+            <div class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-center">
+              <svg class="w-5 h-5 mx-auto mb-1 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+              <div class="text-xs font-bold text-slate-700">voiceover.wav</div>
+              <div class="text-[10px] text-slate-400">Giọng thuyết minh Việt</div>
+            </div>
+            <svg class="w-5 h-5 text-slate-300 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <div class="flex-1 bg-rose-50 border border-rose-200 rounded-xl p-3 text-center">
+              <svg class="w-5 h-5 mx-auto mb-1 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+              <div class="text-xs font-bold text-rose-700">video_hoan_chinh.mp4</div>
+              <div class="text-[10px] text-rose-500">Có tiếng Việt ✓</div>
+            </div>
+          </div>
+
+          <!-- Lệnh FFmpeg -->
+          <div class="bg-slate-900 rounded-xl px-4 py-3 font-mono text-xs text-slate-300">
+            ffmpeg -y -i full_video.mp4 -i voiceover.wav -c:v copy -c:a aac -shortest video_hoan_chinh.mp4
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kết quả cuối -->
+    <div class="connector">
+      <div class="connector-line"></div>
+      <div class="connector-arrow">▼</div>
+    </div>
+    <div class="bg-gradient-to-r from-rose-50 to-amber-50 border border-rose-200 rounded-2xl p-5 text-center">
+      <svg class="w-8 h-8 mx-auto mb-2 text-rose-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <div class="text-base font-extrabold text-slate-900 mb-1">Sản phẩm cuối cùng</div>
+      <p class="text-sm text-slate-600">Video hoạt hình <strong>bút vẽ tay phong cách Whiteboard</strong> —<br/>có giọng thuyết minh tiếng Việt, khớp từng câu phụ đề.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-xs text-slate-400 pt-4 pb-8">
+      Quy trình sản xuất video Whiteboard tiếng Việt
+    </div>
+
+  </div>
+</body>
+</html>

@@ -80,9 +80,163 @@
         Quy Trình Tạo Video Hoạt Hình Vẽ Tay
       </h1>
       <p class="text-slate-600 text-sm md:text-base leading-relaxed">
-        Chuyển đổi kịch bản / phụ đề SRT thành video hoạt hình vẽ tay bảng trắng hoàn chỉnh với hiệu ứng nét bút dòng chảy liên tục (<code class="text-xs bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded font-mono">stream ink→color</code>) khớp theo mạch kể chuyện.
+      <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+        Chuyển đổi kịch bản / phụ đề SRT thành video hoạt hình vẽ tay. Hỗ trợ 2 phong cách: <strong>Whiteboard doodle</strong> tối giản và <strong>Flat 2D Cartoon</strong> màu sắc đầy đủ — cùng 6 bước quy trình, chỉ rẽ nhánh ở Bước 2.
       </p>
-    </header>
+
+    <!-- Section 0: Rẽ nhánh phong cách -->
+    <section class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+      <div class="flex items-center gap-2.5 px-6 py-4 border-b border-slate-100">
+        <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+          <path d="M18 9a9 9 0 0 1-9 9"/>
+        </svg>
+        <h2 class="text-lg font-bold text-slate-900">0. Chọn Phong Cách Trước Khi Bắt Đầu</h2>
+      </div>
+      <div class="p-6">
+        <p class="text-sm text-slate-500 mb-5">Skill hỗ trợ <strong>2 phong cách video</strong>. Cả hai dùng chung 6 bước quy trình và toàn bộ script render — chỉ khác nhau ở <strong>Bước 2</strong> (cách vẽ tranh và prompt AI).</p>
+
+        <!-- 2 card phong cách -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+
+          <!-- Whiteboard -->
+          <div class="border-2 border-slate-200 rounded-2xl p-5 hover:border-slate-400 transition-colors">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-slate-100 text-slate-700 border border-slate-200 font-mono uppercase tracking-wide">Whiteboard</span>
+              <span class="text-xs text-slate-500 font-semibold">Skill: srt-whiteboard-animation</span>
+            </div>
+            <!-- SVG minh hoạ doodle -->
+            <div class="bg-amber-50 border border-amber-100 rounded-xl p-3 mb-3 flex items-center justify-center h-28">
+              <svg viewBox="0 0 200 90" class="w-full h-full">
+                <rect width="200" height="90" fill="#F5EBD7" rx="6"/>
+                <!-- Người que đơn giản -->
+                <circle cx="40" cy="22" r="9" fill="none" stroke="#555" stroke-width="1.8"/>
+                <line x1="40" y1="31" x2="40" y2="58" stroke="#555" stroke-width="1.8"/>
+                <line x1="40" y1="42" x2="27" y2="52" stroke="#555" stroke-width="1.8"/>
+                <line x1="40" y1="42" x2="53" y2="52" stroke="#555" stroke-width="1.8"/>
+                <line x1="40" y1="58" x2="30" y2="74" stroke="#555" stroke-width="1.8"/>
+                <line x1="40" y1="58" x2="50" y2="74" stroke="#555" stroke-width="1.8"/>
+                <!-- Mũi tên doodle -->
+                <line x1="80" y1="45" x2="118" y2="45" stroke="#888" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <polyline points="114,40 120,45 114,50" fill="none" stroke="#888" stroke-width="1.5"/>
+                <!-- Hộp doodle -->
+                <rect x="128" y="28" width="50" height="34" rx="4" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="3,2"/>
+                <line x1="135" y1="40" x2="171" y2="40" stroke="#aaa" stroke-width="1"/>
+                <line x1="135" y1="48" x2="162" y2="48" stroke="#aaa" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="space-y-1.5 text-xs text-slate-600">
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Nền</span><span>Giấy be ấm <code class="font-mono bg-slate-100 px-1 rounded">#F5EBD7</code></span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Màu</span><span>Nét xám + điểm màu rất nhỏ</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Style</span><span>Doodle tối giản, Notion-style</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Dùng khi</span><span>Nội dung giáo dục, giải thích khái niệm</span></div>
+            </div>
+            <div class="mt-3 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono text-slate-600">
+              "làm video whiteboard từ SRT này"
+            </div>
+          </div>
+
+          <!-- Cartoon -->
+          <div class="border-2 border-blue-200 rounded-2xl p-5 hover:border-blue-400 transition-colors">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-xs font-extrabold px-2.5 py-1 rounded bg-blue-100 text-blue-700 border border-blue-200 font-mono uppercase tracking-wide">Cartoon</span>
+              <span class="text-xs text-slate-500 font-semibold">Skill: srt-cartoon-animation</span>
+            </div>
+            <!-- SVG minh hoạ cartoon màu -->
+            <div class="bg-white border border-blue-100 rounded-xl p-3 mb-3 flex items-center justify-center h-28">
+              <svg viewBox="0 0 200 90" class="w-full h-full">
+                <rect width="200" height="90" fill="#ffffff" rx="6"/>
+                <!-- Nhân vật cartoon màu -->
+                <circle cx="40" cy="22" r="10" fill="#FDDCB5" stroke="#333" stroke-width="1.8"/>
+                <!-- Áo xanh -->
+                <rect x="27" y="38" width="26" height="20" rx="4" fill="#2563EB" stroke="#333" stroke-width="1.5"/>
+                <!-- Quần đen -->
+                <rect x="29" y="56" width="10" height="18" rx="2" fill="#1e1e1e" stroke="#333" stroke-width="1.2"/>
+                <rect x="41" y="56" width="10" height="18" rx="2" fill="#1e1e1e" stroke="#333" stroke-width="1.2"/>
+                <!-- Giày -->
+                <ellipse cx="34" cy="76" rx="7" ry="3" fill="white" stroke="#333" stroke-width="1.2"/>
+                <ellipse cx="46" cy="76" rx="7" ry="3" fill="white" stroke="#333" stroke-width="1.2"/>
+                <!-- Mắt -->
+                <circle cx="36" cy="20" r="2" fill="#333"/>
+                <circle cx="44" cy="20" r="2" fill="#333"/>
+                <!-- Cánh tay -->
+                <line x1="27" y1="43" x2="16" y2="52" stroke="#FDDCB5" stroke-width="4" stroke-linecap="round"/>
+                <line x1="53" y1="43" x2="64" y2="52" stroke="#FDDCB5" stroke-width="4" stroke-linecap="round"/>
+                <!-- Tiền xanh lá -->
+                <rect x="90" y="40" width="30" height="18" rx="3" fill="#16a34a" stroke="#333" stroke-width="1.5"/>
+                <rect x="96" y="34" width="30" height="18" rx="3" fill="#16a34a" stroke="#333" stroke-width="1.5"/>
+                <rect x="102" y="28" width="30" height="18" rx="3" fill="#22c55e" stroke="#333" stroke-width="1.5"/>
+                <!-- Giỏ hàng -->
+                <rect x="150" y="38" width="34" height="28" rx="3" fill="none" stroke="#888" stroke-width="1.8"/>
+                <path d="M155 38 Q167 25 179 38" fill="none" stroke="#888" stroke-width="1.8"/>
+                <rect x="156" y="44" width="8" height="14" rx="1" fill="#f59e0b" stroke="#333" stroke-width="1"/>
+                <rect x="168" y="42" width="6" height="18" rx="1" fill="#bfa76f" stroke="#333" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="space-y-1.5 text-xs text-slate-600">
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Nền</span><span>Trắng sạch <code class="font-mono bg-slate-100 px-1 rounded">#FFFFFF</code></span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Màu</span><span>Flat fill đầy màu từng vật thể</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Style</span><span>Cartoon 2D phẳng, nét viền đậm</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0">Dùng khi</span><span>Nội dung sinh động, nhân vật rõ màu</span></div>
+            </div>
+            <div class="mt-3 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 text-xs font-mono text-blue-700">
+              "làm video flat 2D cartoon từ SRT này"
+            </div>
+          </div>
+        </div>
+
+        <!-- Điểm rẽ nhánh -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+          <div class="text-xs font-bold text-slate-600 uppercase tracking-widest mb-4">Rẽ nhánh ở đâu và khi nào</div>
+          <div class="flex gap-4 items-start">
+            <!-- Timeline -->
+            <div class="flex flex-col items-center shrink-0">
+              <div class="w-3 h-3 rounded-full bg-slate-300 border-2 border-white ring-2 ring-slate-300"></div>
+              <div class="w-0.5 h-8 bg-slate-200"></div>
+              <div class="w-3 h-3 rounded-full bg-slate-300 border-2 border-white ring-2 ring-slate-300"></div>
+              <div class="w-0.5 h-8 bg-orange-300"></div>
+              <div class="w-4 h-4 rounded-full bg-orange-400 border-2 border-white ring-2 ring-orange-300 flex items-center justify-center">
+                <svg class="w-2 h-2 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3v18M18 9l-6-6-6 6M18 15l-6 6-6-6"/></svg>
+              </div>
+              <div class="w-0.5 h-8 bg-slate-200"></div>
+              <div class="w-3 h-3 rounded-full bg-slate-300 border-2 border-white ring-2 ring-slate-300"></div>
+            </div>
+            <!-- Labels -->
+            <div class="flex-1 space-y-2">
+              <div class="py-1">
+                <div class="text-xs font-semibold text-slate-700">Bước 1 — Phân tích SRT &amp; phân cảnh</div>
+                <div class="text-xs text-slate-400">Giống nhau hoàn toàn ở cả 2 phong cách</div>
+              </div>
+              <div class="py-1">
+                <div class="text-xs font-semibold text-slate-500">↓</div>
+              </div>
+              <div class="bg-orange-50 border border-orange-300 rounded-xl px-4 py-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                  <span class="text-xs font-bold text-orange-700">Rẽ nhánh tại Bước 2 — Tạo Tranh Vẽ</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                  <div class="bg-white border border-slate-200 rounded-lg p-2 text-center">
+                    <div class="text-[10px] font-bold text-slate-600 mb-0.5">Whiteboard</div>
+                    <div class="text-[10px] text-slate-500">Prompt doodle tối giản<br/>Nền be · Màu rất nhỏ</div>
+                  </div>
+                  <div class="bg-white border border-blue-200 rounded-lg p-2 text-center">
+                    <div class="text-[10px] font-bold text-blue-600 mb-0.5">Flat 2D Cartoon</div>
+                    <div class="text-[10px] text-blue-500">Prompt cartoon màu<br/>Nền trắng · Màu đầy đủ</div>
+                  </div>
+                </div>
+                <div class="mt-2 text-[10px] text-orange-600 text-center font-semibold">AI quyết định dùng skill nào dựa vào từ khoá bạn gõ ở đầu hội thoại</div>
+              </div>
+              <div class="py-1">
+                <div class="text-xs font-semibold text-slate-700">Bước 3 → 6 — Annotation · Preview · Render · Ghép</div>
+                <div class="text-xs text-slate-400">Giống nhau hoàn toàn — cùng script, cùng lệnh</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
 
     <!-- Section 1: Sơ đồ tổng thể -->
     <section class="bg-white border border-slate-200 rounded-2xl shadow-sm">
